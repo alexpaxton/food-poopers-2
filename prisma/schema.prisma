@@ -29,6 +29,7 @@ model Poop {
   latitude  Float
   longitude Float
   weight    Float?
+  notes     String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
