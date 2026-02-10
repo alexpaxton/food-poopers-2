@@ -9,7 +9,6 @@ export default function Home() {
 
   return (
     <Main>
-      <Title>food-poopers-2</Title>
       {status === 'loading' && null}
       {status === 'unauthenticated' && (
         <GoogleButton onClick={() => signIn('google')}>
@@ -37,12 +36,6 @@ const Main = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
-
-const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
 `;
 
 const GoogleButton = styled.button`
