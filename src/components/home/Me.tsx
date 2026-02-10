@@ -2,20 +2,23 @@
 
 import { signOut } from 'next-auth/react';
 import styled from 'styled-components';
+import { Shell } from '../shared/Shell';
 
-interface UserInfoProps {
+interface MeProps {
   name?: string | null;
   email?: string | null;
   image?: string | null;
 }
 
-export function UserInfo({ name, email, image }: UserInfoProps) {
+export function Me({ name, email, image }: MeProps) {
   return (
+    <Shell name="Me">
     <Container>
       {image && <Avatar src={image} alt={name ?? 'User'} />}
       <span>{name ?? email}</span>
       <SignOutButton onClick={() => signOut()}>Sign out</SignOutButton>
     </Container>
+    </Shell>
   );
 }
 

@@ -2,7 +2,7 @@
 
 import { useSession, signIn } from 'next-auth/react';
 import styled from 'styled-components';
-import { UserInfo } from '@/components/home/UserInfo';
+import { Me } from '@/components/home/Me';
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -16,7 +16,7 @@ export default function Home() {
         </GoogleButton>
       )}
       {status === 'authenticated' && session.user && (
-        <UserInfo
+        <Me
           name={session.user.name}
           email={session.user.email}
           image={session.user.image}
