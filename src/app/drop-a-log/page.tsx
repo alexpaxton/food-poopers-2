@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Shell } from '@/components/shared/Shell';
+import { LogForm } from '@/components/drop-a-log/LogForm';
 
 export default function DropALogPage() {
   const { status } = useSession();
@@ -19,7 +20,7 @@ export default function DropALogPage() {
 
   return (
     <Shell name="Drop a log">
-      <p>Drop a Log</p>
+      <LogForm />
     </Shell>
   );
 }
