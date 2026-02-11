@@ -32,10 +32,7 @@ const Main = styled.main`
   position: absolute;
   top: 0;
   left: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
 `;
 
 const GoogleButton = styled.button`

@@ -16,7 +16,7 @@ export function NavBar() {
   return (
     <Nav>
       {TABS.map(({ label, href }) => (
-        <Tab key={href} href={href} $active={pathname === href}>
+        <Tab key={href} href={href} active={pathname === href}>
           {label}
         </Tab>
       ))}
@@ -26,21 +26,20 @@ export function NavBar() {
 
 const Nav = styled.nav`
   grid-area: NavBar;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  display: grid;
+  border-top: 1px solid #e0e0e0;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
 
-const Tab = styled(Link)<{ $active: boolean }>`
-  padding: 0.5rem 1rem;
+const Tab = styled(Link)<{ active: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.9375rem;
-  font-weight: ${({ $active }) => ($active ? '600' : '400')};
-  color: ${({ $active }) => ($active ? '#000' : '#666')};
+  font-weight: ${({ active }) => (active ? '600' : '400')};
+  color: ${({ active }) => (active ? '#000' : '#666')};
   text-decoration: none;
-  border-radius: 6px;
-  background: ${({ $active }) => ($active ? '#f0f0f0' : 'transparent')};
+  background: ${({ active }) => (active ? '#f0f0f0' : 'transparent')};
   transition: background 0.15s, color 0.15s;
 
   &:hover {
