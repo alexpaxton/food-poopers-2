@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+import { Poop } from '@prisma/client';
+
+type FormPoop = Omit<Poop, 'id' | 'createdAt'>
 
 export const POST = auth(async (req) => {
   if (!req.auth?.user?.id) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const body = await req.json();
+  const body = await req.json() as FormPoop;
   const { color, spicy, type, latitude, longitude, weight, notes } = body;
 
   if (
@@ -27,8 +30,8 @@ export const POST = auth(async (req) => {
       type,
       latitude,
       longitude,
-      weight: typeof weight === 'number' ? weight : null,
-      notes: typeof notes === 'string' ? notes : null,
+      weight,
+      notes,
       userId: req.auth.user.id,
     },
   });
