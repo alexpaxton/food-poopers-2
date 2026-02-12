@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Nunito } from 'next/font/google';
 import StyledComponentsRegistry from '@/lib/registry';
 import AuthSessionProvider from '@/lib/session-provider';
 import { QueryProvider } from '@/lib/query-provider';
+import { FlyoutProvider } from '@/components/shared/FlyoutProvider';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Food Poopers',
@@ -25,11 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={nunito.className}>
       <body>
         <StyledComponentsRegistry>
           <AuthSessionProvider>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider><FlyoutProvider>{children}</FlyoutProvider></QueryProvider>
           </AuthSessionProvider>
         </StyledComponentsRegistry>
       </body>
