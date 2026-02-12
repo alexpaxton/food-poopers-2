@@ -1,7 +1,9 @@
 'use client'
 
 import styled from 'styled-components';
+import { ListIcon } from '@phosphor-icons/react';
 import { NavBar } from './NavBar';
+import { useFlyout } from './FlyoutProvider';
 
 type Props = {
   name: string;
@@ -9,10 +11,12 @@ type Props = {
 }
 
 export function Shell({children, name}: Props) {
+  const {showFlyout} = useFlyout()
   return (
     <Page>
       <PageHeader>
         <PageTitle>{name}</PageTitle>
+        <FlyoutButton onClick={showFlyout}><ListIcon color="#000" size={32}/></FlyoutButton>
       </PageHeader>
       <PageBody>
         {children}
@@ -55,4 +59,15 @@ const PageBody = styled.div`
   grid-area: PageBody;
   background-color: #fff;
   overflow-y: auto;
+`
+
+const FlyoutButton = styled.button`
+  width: 9rem;
+  height: 9rem;
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
