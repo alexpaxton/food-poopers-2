@@ -1,13 +1,13 @@
 "use client";
 
+import {
+  ArrowFatLineDownIcon,
+  HouseIcon,
+  TrophyIcon,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
-import {
-  HouseIcon,
-  TrophyIcon,
-  ArrowFatLineDownIcon,
-} from "@phosphor-icons/react";
 
 const TABS = [
   { label: "Home", href: "/", Icon: HouseIcon },

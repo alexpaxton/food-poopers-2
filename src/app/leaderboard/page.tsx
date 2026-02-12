@@ -1,8 +1,9 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+
 import { Shell } from "@/components/shared/Shell";
 
 export default function LeaderboardPage() {

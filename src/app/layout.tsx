@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
+
+import { QueryProvider } from "@/lib/query-provider";
 import StyledComponentsRegistry from "@/lib/registry";
 import AuthSessionProvider from "@/lib/session-provider";
-import { QueryProvider } from "@/lib/query-provider";
+
 import { FlyoutProvider } from "@/components/shared/FlyoutProvider";
+
 import "@/app/globals.css";
 
 const nunito = Nunito({ subsets: ["latin"] });

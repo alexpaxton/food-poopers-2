@@ -1,9 +1,10 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState } from "react";
+import { SignOutIcon, XIcon } from "@phosphor-icons/react";
 import { signOut } from "next-auth/react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import styled from "styled-components";
-import { XIcon, SignOutIcon } from "@phosphor-icons/react";
+
 import { Avatar } from "@/components/shared/Avatar";
 
 type FlyoutContextType = {

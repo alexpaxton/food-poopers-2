@@ -1,9 +1,11 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+
 import { Shell } from "@/components/shared/Shell";
+
 import { LogForm } from "@/components/drop-a-log/LogForm";
 
 export default function DropALogPage() {

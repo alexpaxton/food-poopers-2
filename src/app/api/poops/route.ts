@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { prisma } from "@/lib/prisma";
 import { Poop } from "@prisma/client";
+import { NextResponse } from "next/server";
+
+import { prisma } from "@/lib/prisma";
+
+import { auth } from "@/auth";
 
 type FormPoop = Omit<Poop, "id" | "createdAt">;
 

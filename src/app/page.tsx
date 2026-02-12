@@ -1,7 +1,8 @@
 "use client";
 
-import { useSession, signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import styled from "styled-components";
+
 import { Me } from "@/components/home/Me";
 
 export default function Home() {

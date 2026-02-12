@@ -1,9 +1,10 @@
 "use client";
 
-import styled from "styled-components";
 import { ListIcon } from "@phosphor-icons/react";
-import { NavBar } from "@/components/shared/NavBar";
+import styled from "styled-components";
+
 import { useFlyout } from "@/components/shared/FlyoutProvider";
+import { NavBar } from "@/components/shared/NavBar";
 
 type Props = {
   name: string;
