@@ -25,6 +25,7 @@ const Circle = styled.img`
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
+  border: 2px solid #fff;
 `;
 
 const EmptyCircle = styled.div`
