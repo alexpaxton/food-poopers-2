@@ -4,23 +4,26 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import styled from "styled-components";
 
+import { Button } from "@/components/shared/Button";
+import { Input } from "@/components/shared/Input";
+
+import { Carousel } from "@/components/drop-a-log/Carousel";
+
 type FormState = {
   color: string;
   spicy: boolean;
-  type: number | null;
+  type: number;
   weight: string;
   notes: string;
 };
 
 const INITIAL_FORM_STATE: FormState = {
-  color: "",
+  color: "Brown",
   spicy: false,
-  type: null,
+  type: 4,
   weight: "",
   notes: "",
 };
-
-const BRISTOL_TYPES = [1, 2, 3, 4, 5, 6, 7];
 
 const COLORS: { label: string; hex: string }[] = [
   { label: "Brown", hex: "#7B3F00" },
@@ -61,6 +64,11 @@ export function LogForm() {
     },
   });
 
+  function handleSelectStool(type: number) {
+    console.log("handleSelectStool", type);
+    setForm((f) => ({ ...f, type }));
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.type) return;
@@ -72,7 +80,7 @@ export function LogForm() {
         mutation.mutate({
           color: form.color,
           spicy: form.spicy,
-          type: form.type!,
+          type: form.type,
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
           weight: form.weight !== "" ? parseFloat(form.weight) : null,
@@ -109,18 +117,7 @@ export function LogForm() {
 
       <Field>
         <Label>Bristol Type</Label>
-        <TypeGrid>
-          {BRISTOL_TYPES.map((t) => (
-            <TypeButton
-              key={t}
-              type="button"
-              $selected={form.type === t}
-              onClick={() => setForm((f) => ({ ...f, type: t }))}
-            >
-              {t}
-            </TypeButton>
-          ))}
-        </TypeGrid>
+        <Carousel onSelect={handleSelectStool} />
       </Field>
 
       <Field>
@@ -137,15 +134,24 @@ export function LogForm() {
       </Field>
 
       <Field>
-        <Label>Weight (g) — optional</Label>
+        <Label>Weight (lbs) — optional</Label>
         <Input
+          value={form.weight}
+          onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
+          name="Weight"
+          type="number"
+          placeholder="Enter weight in lbs"
+          step="0.1"
+          min="0"
+        />
+        {/* <Input
           type="number"
           min="0"
           step="0.1"
           value={form.weight}
           onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
-          placeholder="e.g. 200"
-        />
+          
+        /> */}
       </Field>
 
       <Field>
@@ -164,12 +170,12 @@ export function LogForm() {
       )}
       {mutation.isSuccess && <SuccessText>Poop logged!</SuccessText>}
 
-      <SubmitButton
+      <Button
         type="submit"
         disabled={!form.color || !form.type || mutation.isPending}
       >
         {mutation.isPending ? "Locating…" : "Drop a log"}
-      </SubmitButton>
+      </Button>
     </Form>
   );
 }
@@ -178,10 +184,8 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  padding: 1.5rem;
-  max-width: 480px;
+  padding: 3rem;
   width: 100%;
-  margin: 0 auto;
 `;
 
 const Field = styled.div`
@@ -194,18 +198,6 @@ const Label = styled.label`
   font-size: 0.875rem;
   font-weight: 500;
   color: #333;
-`;
-
-const Input = styled.input`
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-
-  &:focus {
-    border-color: #000;
-  }
 `;
 
 const Textarea = styled.textarea`
@@ -260,31 +252,6 @@ const ColorLabel = styled.span<{ $selected: boolean }>`
   color: #333;
 `;
 
-const TypeGrid = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
-
-const TypeButton = styled.button<{ $selected: boolean }>`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 8px;
-  border: 1px solid ${({ $selected }) => ($selected ? "#000" : "#d0d0d0")};
-  background: ${({ $selected }) => ($selected ? "#000" : "#fff")};
-  color: ${({ $selected }) => ($selected ? "#fff" : "#333")};
-  font-size: 1rem;
-  font-weight: ${({ $selected }) => ($selected ? "600" : "400")};
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    border-color 0.15s,
-    color 0.15s;
-
-  &:hover {
-    border-color: #000;
-  }
-`;
-
 const SpicyLabel = styled.label`
   display: flex;
   align-items: center;
@@ -297,23 +264,6 @@ const Checkbox = styled.input`
   width: 1.125rem;
   height: 1.125rem;
   cursor: pointer;
-`;
-
-const SubmitButton = styled.button`
-  padding: 0.75rem;
-  background: #000;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.15s;
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
 `;
 
 const ErrorText = styled.p`
