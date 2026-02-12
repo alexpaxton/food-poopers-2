@@ -4,7 +4,7 @@ import { createContext, useContext, ReactNode, useState } from "react";
 import { signOut } from "next-auth/react";
 import styled from "styled-components";
 import { XIcon, SignOutIcon } from "@phosphor-icons/react";
-import { Avatar } from "./Avatar";
+import { Avatar } from "@/components/shared/Avatar";
 
 type FlyoutContextType = {
   isVisible: boolean;

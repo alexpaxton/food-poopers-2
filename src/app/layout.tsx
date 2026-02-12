@@ -4,7 +4,7 @@ import StyledComponentsRegistry from "@/lib/registry";
 import AuthSessionProvider from "@/lib/session-provider";
 import { QueryProvider } from "@/lib/query-provider";
 import { FlyoutProvider } from "@/components/shared/FlyoutProvider";
-import "./globals.css";
+import "@/app/globals.css";
 
 const nunito = Nunito({ subsets: ["latin"] });
 

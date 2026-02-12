@@ -1,6 +1,6 @@
 "use client";
 
-import { Shell } from "../shared/Shell";
+import { Shell } from "@/components/shared/Shell";
 
 export function Me() {
   return (
