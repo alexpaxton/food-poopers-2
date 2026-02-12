@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useSession, signIn } from 'next-auth/react';
-import styled from 'styled-components';
-import { Me } from '@/components/home/Me';
+import { useSession, signIn } from "next-auth/react";
+import styled from "styled-components";
+import { Me } from "@/components/home/Me";
 
 export default function Home() {
   const { data: session, status } = useSession();
 
   return (
     <Main>
-      {status === 'loading' && null}
-      {status === 'unauthenticated' && (
-        <GoogleButton onClick={() => signIn('google')}>
+      {status === "loading" && null}
+      {status === "unauthenticated" && (
+        <GoogleButton onClick={() => signIn("google")}>
           Sign in with Google
         </GoogleButton>
       )}
-      {status === 'authenticated' && session.user && (
+      {status === "authenticated" && session.user && (
         <Me
           name={session.user.name}
           email={session.user.email}
@@ -47,7 +47,9 @@ const GoogleButton = styled.button`
   border: 1px solid #dadce0;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
 
   &:hover {
     background: #f8f9fa;

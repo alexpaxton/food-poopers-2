@@ -1,26 +1,24 @@
-'use client';
+"use client";
 
-import { useSession } from 'next-auth/react';
-import styled from 'styled-components';
+import { useSession } from "next-auth/react";
+import styled from "styled-components";
 
 export function Avatar() {
-  const {data, status } = useSession({required: true});
+  const { data, status } = useSession({ required: true });
 
-  if (status === 'loading' || data === null) {
-    return <EmptyCircle />
+  if (status === "loading" || data === null) {
+    return <EmptyCircle />;
   }
 
   if (data.user === undefined) {
-    return <EmptyCircle />
+    return <EmptyCircle />;
   }
 
   if (data.user.image === undefined || data.user.image === null) {
-    return <EmptyCircle />
+    return <EmptyCircle />;
   }
 
-  return (
-    <Circle src={data.user.image} />
-  )
+  return <Circle src={data.user.image} />;
 }
 
 const Circle = styled.img`

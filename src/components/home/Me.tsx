@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { Shell } from '../shared/Shell';
+import { Shell } from "../shared/Shell";
 
 export function Me() {
   return (
     <Shell name="Me">
-    <p>Home page</p>
+      <p>Home page</p>
     </Shell>
   );
 }

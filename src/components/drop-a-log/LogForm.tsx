@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import styled from 'styled-components';
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import styled from "styled-components";
 
 type FormState = {
   color: string;
@@ -13,23 +13,23 @@ type FormState = {
 };
 
 const INITIAL_FORM_STATE: FormState = {
-  color: '',
+  color: "",
   spicy: false,
   type: null,
-  weight: '',
-  notes: '',
+  weight: "",
+  notes: "",
 };
 
 const BRISTOL_TYPES = [1, 2, 3, 4, 5, 6, 7];
 
 const COLORS: { label: string; hex: string }[] = [
-  { label: 'Brown', hex: '#7B3F00' },
-  { label: 'Green', hex: '#4CAF50' },
-  { label: 'Yellow', hex: '#FDD835' },
-  { label: 'Black', hex: '#212121' },
-  { label: 'Red', hex: '#E53935' },
-  { label: 'White', hex: '#F5F5F5' },
-  { label: 'Orange', hex: '#FB8C00' },
+  { label: "Brown", hex: "#7B3F00" },
+  { label: "Green", hex: "#4CAF50" },
+  { label: "Yellow", hex: "#FDD835" },
+  { label: "Black", hex: "#212121" },
+  { label: "Red", hex: "#E53935" },
+  { label: "White", hex: "#F5F5F5" },
+  { label: "Orange", hex: "#FB8C00" },
 ];
 
 async function postPoop(data: {
@@ -41,12 +41,12 @@ async function postPoop(data: {
   weight: number | null;
   notes: string | null;
 }) {
-  const res = await fetch('/api/poops', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const res = await fetch("/api/poops", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to submit');
+  if (!res.ok) throw new Error("Failed to submit");
   return res.json();
 }
 
@@ -75,13 +75,15 @@ export function LogForm() {
           type: form.type!,
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
-          weight: form.weight !== '' ? parseFloat(form.weight) : null,
-          notes: form.notes !== '' ? form.notes : null,
+          weight: form.weight !== "" ? parseFloat(form.weight) : null,
+          notes: form.notes !== "" ? form.notes : null,
         });
       },
       () => {
-        setLocationError('Unable to get location. Please allow location access and try again.');
-      }
+        setLocationError(
+          "Unable to get location. Please allow location access and try again.",
+        );
+      },
     );
   }
 
@@ -126,7 +128,9 @@ export function LogForm() {
           <Checkbox
             type="checkbox"
             checked={form.spicy}
-            onChange={(e) => setForm((f) => ({ ...f, spicy: e.target.checked }))}
+            onChange={(e) =>
+              setForm((f) => ({ ...f, spicy: e.target.checked }))
+            }
           />
           Spicy
         </SpicyLabel>
@@ -155,11 +159,16 @@ export function LogForm() {
       </Field>
 
       {locationError && <ErrorText>{locationError}</ErrorText>}
-      {mutation.isError && <ErrorText>Something went wrong. Please try again.</ErrorText>}
+      {mutation.isError && (
+        <ErrorText>Something went wrong. Please try again.</ErrorText>
+      )}
       {mutation.isSuccess && <SuccessText>Poop logged!</SuccessText>}
 
-      <SubmitButton type="submit" disabled={!form.color || !form.type || mutation.isPending}>
-        {mutation.isPending ? 'Locating…' : 'Drop a log'}
+      <SubmitButton
+        type="submit"
+        disabled={!form.color || !form.type || mutation.isPending}
+      >
+        {mutation.isPending ? "Locating…" : "Drop a log"}
       </SubmitButton>
     </Form>
   );
@@ -225,13 +234,13 @@ const ColorButton = styled.button<{ $hex: string; $selected: boolean }>`
   gap: 0.25rem;
   padding: 0.375rem;
   border-radius: 8px;
-  border: 2px solid ${({ $selected }) => ($selected ? '#000' : 'transparent')};
+  border: 2px solid ${({ $selected }) => ($selected ? "#000" : "transparent")};
   background: none;
   cursor: pointer;
   transition: border-color 0.15s;
 
   &::before {
-    content: '';
+    content: "";
     display: block;
     width: 2rem;
     height: 2rem;
@@ -247,7 +256,7 @@ const ColorButton = styled.button<{ $hex: string; $selected: boolean }>`
 
 const ColorLabel = styled.span<{ $selected: boolean }>`
   font-size: 0.6875rem;
-  font-weight: ${({ $selected }) => ($selected ? '600' : '400')};
+  font-weight: ${({ $selected }) => ($selected ? "600" : "400")};
   color: #333;
 `;
 
@@ -260,13 +269,16 @@ const TypeButton = styled.button<{ $selected: boolean }>`
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 8px;
-  border: 1px solid ${({ $selected }) => ($selected ? '#000' : '#d0d0d0')};
-  background: ${({ $selected }) => ($selected ? '#000' : '#fff')};
-  color: ${({ $selected }) => ($selected ? '#fff' : '#333')};
+  border: 1px solid ${({ $selected }) => ($selected ? "#000" : "#d0d0d0")};
+  background: ${({ $selected }) => ($selected ? "#000" : "#fff")};
+  color: ${({ $selected }) => ($selected ? "#fff" : "#333")};
   font-size: 1rem;
-  font-weight: ${({ $selected }) => ($selected ? '600' : '400')};
+  font-weight: ${({ $selected }) => ($selected ? "600" : "400")};
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
 
   &:hover {
     border-color: #000;
