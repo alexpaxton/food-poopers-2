@@ -16,13 +16,7 @@ export default function Home() {
           Sign in with Google
         </GoogleButton>
       )}
-      {status === "authenticated" && session.user && (
-        <Me
-          name={session.user.name}
-          email={session.user.email}
-          image={session.user.image}
-        />
-      )}
+      {status === "authenticated" && session.user && <Me />}
     </Main>
   );
 }
