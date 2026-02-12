@@ -30,7 +30,7 @@ const Page = styled.div`
   overflow: hidden;
   top: 0;
   left: 0;
-  grid-template-rows: 90px auto 90px;
+  grid-template-rows: 9rem auto 9rem;
   grid-template-areas: 'PageHeader'
   'PageBody'
   'NavBar';
@@ -42,12 +42,13 @@ const PageHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
-  padding: 0 1rem;
+  padding-left: 3rem;
 `
 
 const PageTitle = styled.h1`
   color: #000;
-  font-size: 1.5rem;
+  font-size: 3rem;
+  letter-spacing: -0.01em;
 `
 
 const PageBody = styled.div`
