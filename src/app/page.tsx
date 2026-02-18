@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <Main>
-      {status === "loading" && null}
+      {status === "loading" && <p>Loading...</p>}
       {status === "unauthenticated" && (
         <GoogleButton onClick={() => signIn("google")}>
           Sign in with Google
