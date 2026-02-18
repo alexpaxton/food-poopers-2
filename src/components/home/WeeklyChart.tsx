@@ -90,6 +90,6 @@ export function WeeklyChart() {
 
 const Container = styled.div`
   width: 100%;
-  height: 40rem;
+  height: 25dvh;
   padding: 3rem;
 `;

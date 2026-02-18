@@ -19,11 +19,14 @@ export function StatCard({ label, stat }: Props) {
 const Card = styled.dl`
   background-color: #eee;
   border-radius: 0.5rem;
-  padding: 3rem;
+  padding: 2rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Label = styled.dt`
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
 `;
 

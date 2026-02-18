@@ -21,6 +21,7 @@ export function Me() {
 }
 const StatContainer = styled.div`
   padding: 3rem;
+  padding-top: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
