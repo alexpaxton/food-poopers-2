@@ -11,6 +11,8 @@ import {
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 
+import { COLORS } from "@/constants";
+
 ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 const DAY_LABELS = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
@@ -40,56 +42,114 @@ export function WeeklyChart() {
   }
 
   return (
-    <Container>
-      <Bar
-        data={{
-          labels: DAY_LABELS,
-          datasets: [
-            {
-              data: counts,
-              backgroundColor: "#000",
-              borderWidth: 0,
-              borderRadius: 4,
+    <Card>
+      <Chart>
+        <Bar
+          data={{
+            labels: DAY_LABELS,
+            datasets: [
+              {
+                data: counts,
+                backgroundColor: "#000",
+                borderWidth: 0,
+                borderRadius: 4,
+                categoryPercentage: 1,
+                barPercentage: 0.8,
+              },
+            ],
+          }}
+          options={{
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { enabled: false },
             },
-          ],
-        }}
-        options={{
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: { enabled: false },
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: {
-                callback: (_: unknown, index: number) => [
-                  DAY_LABELS[index],
-                  counts[index] === 0 ? "" : String(counts[index]),
-                ],
-                font: {
-                  size: 16,
-                  weight: "bold",
-                  family: "Nunito, Nunito Fallback",
-                },
+            layout: {
+              padding: {
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
               },
             },
-            y: {
-              grid: { display: true },
-              ticks: { display: false },
-              border: { display: false },
-              beginAtZero: true,
-              suggestedMax: 3,
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { display: false },
+              },
+              y: {
+                grid: { display: true },
+                ticks: { display: false },
+                border: { display: false },
+                beginAtZero: true,
+                suggestedMax: 3,
+              },
             },
-          },
-        }}
-      />
-    </Container>
+          }}
+        />
+      </Chart>
+      <DailyTotals>
+        <Spacer />
+        {counts.map((count, i) => (
+          <Total key={`${DAY_LABELS[i]}-count`}>
+            <Day>{DAY_LABELS[i]}</Day>
+            {count > 0 ? <Count>{count}</Count> : undefined}
+          </Total>
+        ))}
+      </DailyTotals>
+    </Card>
   );
 }
 
-const Container = styled.div`
+const Card = styled.div`
+  grid-area: chart;
   width: 100%;
-  height: 25dvh;
   padding: 3rem;
+  background-color: ${COLORS.bg.primary};
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: ${COLORS.border.width} solid ${COLORS.border.primary};
+`;
+
+const Chart = styled.div`
+  flex: 1 0 0;
+`;
+
+const DailyTotals = styled.div`
+  width: 100%;
+  display: flex;
+`;
+
+const Total = styled.div`
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const Spacer = styled.div`
+  flex: 0 0 6px;
+  height: 4rem;
+`;
+
+const Day = styled.h6`
+  font-size: 2rem;
+  font-weight: 400;
+`;
+
+const Count = styled.div`
+  background-color: ${COLORS.border.selected};
+  color: ${COLORS.text.invert};
+  font-size: 2rem;
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  flex: 0 0 3rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

@@ -6,8 +6,14 @@ import styled from "styled-components";
 
 import { Button } from "@/components/shared/Button";
 import { Input } from "@/components/shared/Input";
+import { TextArea } from "@/components/shared/TextArea";
 
 import { Carousel } from "@/components/drop-a-log/Carousel";
+import { ColorPicker } from "@/components/drop-a-log/ColorPicker";
+import { SpicyToggle } from "@/components/drop-a-log/SpicyToggle";
+import { TypePicker } from "@/components/drop-a-log/TypePicker";
+
+import { useLocalStorage } from "@/hooks";
 
 type FormState = {
   color: string;
@@ -24,16 +30,6 @@ const INITIAL_FORM_STATE: FormState = {
   weight: "",
   notes: "",
 };
-
-const COLORS: { label: string; hex: string }[] = [
-  { label: "Brown", hex: "#7B3F00" },
-  { label: "Green", hex: "#4CAF50" },
-  { label: "Yellow", hex: "#FDD835" },
-  { label: "Black", hex: "#212121" },
-  { label: "Red", hex: "#E53935" },
-  { label: "White", hex: "#F5F5F5" },
-  { label: "Orange", hex: "#FB8C00" },
-];
 
 async function postPoop(data: {
   color: string;
@@ -54,7 +50,10 @@ async function postPoop(data: {
 }
 
 export function LogForm() {
-  const [form, setForm] = useState<FormState>(INITIAL_FORM_STATE);
+  const { value: form, setValue: setForm } = useLocalStorage<FormState>({
+    initialValue: INITIAL_FORM_STATE,
+    key: "log-form",
+  });
   const [locationError, setLocationError] = useState<string | null>(null);
 
   const mutation = useMutation({
@@ -64,9 +63,17 @@ export function LogForm() {
     },
   });
 
-  function handleSelectStool(type: number) {
-    console.log("handleSelectStool", type);
+  function handleSelectType(type: number) {
+    console.log("handleSelectType", type);
     setForm((f) => ({ ...f, type }));
+  }
+
+  function handleSelectColor(color: string) {
+    setForm((f) => ({ ...f, color }));
+  }
+
+  function handleToggleSpicy(spicy: boolean) {
+    setForm((f) => ({ ...f, spicy }));
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -97,85 +104,46 @@ export function LogForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Field>
-        <Label>Color</Label>
-        <ColorGrid>
-          {COLORS.map(({ label, hex }) => (
-            <ColorButton
-              key={label}
-              type="button"
-              $hex={hex}
-              $selected={form.color === label}
-              onClick={() => setForm((f) => ({ ...f, color: label }))}
-              title={label}
-            >
-              <ColorLabel $selected={form.color === label}>{label}</ColorLabel>
-            </ColorButton>
-          ))}
-        </ColorGrid>
-      </Field>
-
-      <Field>
-        <Label>Bristol Type</Label>
-        <Carousel onSelect={handleSelectStool} />
-      </Field>
-
-      <Field>
-        <SpicyLabel>
-          <Checkbox
-            type="checkbox"
-            checked={form.spicy}
-            onChange={(e) =>
-              setForm((f) => ({ ...f, spicy: e.target.checked }))
-            }
-          />
-          Spicy
-        </SpicyLabel>
-      </Field>
-
-      <Field>
-        <Label>Weight (lbs) — optional</Label>
+      <Carousel
+        onSelect={handleSelectType}
+        selectedType={form.type}
+        color={form.color}
+        spicy={form.spicy}
+      />
+      <TypePicker onSelect={handleSelectType} selectedType={form.type} />
+      <ColorPicker onSelect={handleSelectColor} selectedColor={form.color} />
+      <TwoColumns>
+        <SpicyToggle spicy={form.spicy} onToggleSpicy={handleToggleSpicy} />
         <Input
           value={form.weight}
           onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
           name="Weight"
           type="number"
-          placeholder="Enter weight in lbs"
+          placeholder="Weight in lbs"
           step="0.1"
           min="0"
         />
-        {/* <Input
-          type="number"
-          min="0"
-          step="0.1"
-          value={form.weight}
-          onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
-          
-        /> */}
-      </Field>
-
-      <Field>
-        <Label>Notes — optional</Label>
-        <Textarea
+      </TwoColumns>
+      <OneColumn>
+        <TextArea
+          name="Notes"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
           placeholder="Anything worth noting?"
-          rows={3}
         />
-      </Field>
+        <Button
+          type="submit"
+          disabled={!form.color || !form.type || mutation.isPending}
+        >
+          {mutation.isPending ? "Locating…" : "Drop a log"}
+        </Button>
+      </OneColumn>
 
       {locationError && <ErrorText>{locationError}</ErrorText>}
       {mutation.isError && (
         <ErrorText>Something went wrong. Please try again.</ErrorText>
       )}
       {mutation.isSuccess && <SuccessText>Poop logged!</SuccessText>}
-
-      <Button
-        type="submit"
-        disabled={!form.color || !form.type || mutation.isPending}
-      >
-        {mutation.isPending ? "Locating…" : "Drop a log"}
-      </Button>
     </Form>
   );
 }
@@ -183,87 +151,23 @@ export function LogForm() {
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 3rem;
-  width: 100%;
+  gap: 2rem;
+  width: 100dvw;
+  padding: 3rem 0;
 `;
 
-const Field = styled.div`
+const TwoColumns = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: 3rem;
+  padding: 0 3rem;
+`;
+const OneColumn = styled.div`
+  padding: 0 3rem;
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
-`;
-
-const Label = styled.label`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #333;
-`;
-
-const Textarea = styled.textarea`
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #d0d0d0;
-  border-radius: 8px;
-  font-size: 1rem;
-  resize: vertical;
-  outline: none;
-
-  &:focus {
-    border-color: #000;
-  }
-`;
-
-const ColorGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-`;
-
-const ColorButton = styled.button<{ $hex: string; $selected: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.375rem;
-  border-radius: 8px;
-  border: 2px solid ${({ $selected }) => ($selected ? "#000" : "transparent")};
-  background: none;
-  cursor: pointer;
-  transition: border-color 0.15s;
-
-  &::before {
-    content: "";
-    display: block;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: ${({ $hex }) => $hex};
-    border: 1px solid rgba(0, 0, 0, 0.12);
-  }
-
-  &:hover {
-    border-color: #000;
-  }
-`;
-
-const ColorLabel = styled.span<{ $selected: boolean }>`
-  font-size: 0.6875rem;
-  font-weight: ${({ $selected }) => ($selected ? "600" : "400")};
-  color: #333;
-`;
-
-const SpicyLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-`;
-
-const Checkbox = styled.input`
-  width: 1.125rem;
-  height: 1.125rem;
-  cursor: pointer;
+  gap: 2rem;
 `;
 
 const ErrorText = styled.p`

@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { useFlyout } from "@/components/shared/FlyoutProvider";
 import { NavBar } from "@/components/shared/NavBar";
 
+import { COLORS } from "@/constants";
+
 type Props = {
   name: string;
   children: React.ReactNode;
@@ -18,7 +20,7 @@ export function Shell({ children, name }: Props) {
       <PageHeader>
         <PageTitle>{name}</PageTitle>
         <FlyoutButton onClick={showFlyout}>
-          <ListIcon color="#000" size={32} />
+          <ListIcon color={COLORS.text.primary} size={32} />
         </FlyoutButton>
       </PageHeader>
       <PageBody>{children}</PageBody>
@@ -47,20 +49,25 @@ const PageHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #e0e0e0;
+  /* border-bottom: ${COLORS.border.width} solid ${COLORS.border.primary}; */
   padding-left: 3rem;
 `;
 
 const PageTitle = styled.h1`
-  color: #000;
+  color: ${COLORS.text.primary};
   font-size: 3rem;
   letter-spacing: -0.01em;
 `;
 
 const PageBody = styled.div`
   grid-area: PageBody;
-  background-color: #fff;
+  background: linear-gradient(
+    180deg,
+    ${COLORS.bg.primary} 0%,
+    ${COLORS.bg.secondary} 100%
+  );
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const FlyoutButton = styled.button`

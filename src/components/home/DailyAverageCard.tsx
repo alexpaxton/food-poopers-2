@@ -9,14 +9,20 @@ export function DailyAverageCard() {
     queryKey: ["daily-average"],
     queryFn: () => fetch("/api/poops/daily-average").then((res) => res.json()),
   });
+  const label = "Mean lifetime poops/day";
+  let stat = "";
 
   if (status === "pending") {
-    return <StatCard label="All-time daily avg" stat="..." />;
+    stat = "...";
   }
 
   if (status === "error") {
-    return <StatCard label="All-time daily avg" stat="!" />;
+    stat = "!";
   }
 
-  return <StatCard label="All-time daily avg" stat={data.average.toFixed(1)} />;
+  if (data !== undefined) {
+    stat = data.average.toFixed(1);
+  }
+
+  return <StatCard label={label} stat={stat} slot="stat1" />;
 }

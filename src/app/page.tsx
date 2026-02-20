@@ -1,22 +1,20 @@
-"use client";
-
-import { signIn, useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import styled from "styled-components";
 
-import { Me } from "@/components/home/Me";
+import { SignInButton } from "@/components/home/SignInButton";
 
-export default function Home() {
-  const { data: session, status } = useSession();
+import { auth } from "@/auth";
+
+export default async function Home() {
+  const session = await auth();
+
+  if (session) {
+    redirect("/me");
+  }
 
   return (
     <Main>
-      {status === "loading" && <p>Loading...</p>}
-      {status === "unauthenticated" && (
-        <GoogleButton onClick={() => signIn("google")}>
-          Sign in with Google
-        </GoogleButton>
-      )}
-      {status === "authenticated" && session.user && <Me />}
+      <SignInButton />
     </Main>
   );
 }
@@ -28,26 +26,9 @@ const Main = styled.main`
   top: 0;
   left: 0;
   overflow: hidden;
-`;
-
-const GoogleButton = styled.button`
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #3c4043;
-  background: #fff;
-  border: 1px solid #dadce0;
-  border-radius: 4px;
-  cursor: pointer;
-  transition:
-    background 0.2s,
-    box-shadow 0.2s;
-
-  &:hover {
-    background: #f8f9fa;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  }
+  justify-content: center;
 `;

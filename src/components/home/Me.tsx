@@ -2,27 +2,28 @@
 
 import styled from "styled-components";
 
-import { Shell } from "@/components/shared/Shell";
-
 import { AverageIntervalCard } from "@/components/home/AverageIntervalCard";
 import { DailyAverageCard } from "@/components/home/DailyAverageCard";
 import { WeeklyChart } from "@/components/home/WeeklyChart";
 
 export function Me() {
   return (
-    <Shell name="Weekly stats">
+    <StatContainer>
       <WeeklyChart />
-      <StatContainer>
-        <DailyAverageCard />
-        <AverageIntervalCard />
-      </StatContainer>
-    </Shell>
+      <DailyAverageCard />
+      <AverageIntervalCard />
+    </StatContainer>
   );
 }
 const StatContainer = styled.div`
   padding: 3rem;
-  padding-top: 0;
   display: grid;
+  min-height: 100%;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 120px 120px;
   gap: 3rem;
+  grid-template-areas:
+    "chart chart"
+    "stat1 stat2"
+    "stat3 stat4";
 `;

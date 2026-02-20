@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 import { QueryProvider } from "@/lib/query-provider";
 import StyledComponentsRegistry from "@/lib/registry";
-import AuthSessionProvider from "@/lib/session-provider";
 
 import { FlyoutProvider } from "@/components/shared/FlyoutProvider";
 
@@ -32,11 +32,11 @@ export default function RootLayout({
     <html lang="en" className={nunito.className}>
       <body>
         <StyledComponentsRegistry>
-          <AuthSessionProvider>
+          <SessionProvider>
             <QueryProvider>
               <FlyoutProvider>{children}</FlyoutProvider>
             </QueryProvider>
-          </AuthSessionProvider>
+          </SessionProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

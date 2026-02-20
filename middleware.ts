@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@/auth";
 
-const PROTECTED_ROUTES = ["/drop-a-log", "/leaderboard"];
+const PROTECTED_ROUTES = ["/drop-a-log", "/leaderboard", "/me"];
 
 export default auth((req) => {
   const isLoggedIn = !!req.auth;

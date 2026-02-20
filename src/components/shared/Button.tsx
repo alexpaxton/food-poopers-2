@@ -8,14 +8,14 @@ export const Button = styled.button`
   background: #000;
   color: #fff;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1.75rem;
-  font-weight: 600;
+  border-radius: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 800;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: opacity 0.25s;
 
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.5;
     cursor: not-allowed;
   }
 `;

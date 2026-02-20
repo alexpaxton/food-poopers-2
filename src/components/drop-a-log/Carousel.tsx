@@ -4,22 +4,18 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useEffect } from "react";
 import styled from "styled-components";
 
-// Analyze: Types 1–2 indicate constipation (likely need more fiber/water), while 5–7 indicate diarrhea (may indicate infection or food sensitivities).
-const BRISTOL_TYPES = [
-  { type: 1, description: "Separate hard lumps, like nuts (hard to pass)" },
-  { type: 2, description: "Sausage-shaped but lumpy" },
-  { type: 3, description: "Like a sausage but with cracks on the surface" },
-  { type: 4, description: "Like a sausage or snake, smooth and soft (Ideal)" },
-  { type: 5, description: "Soft blobs with clear-cut edges" },
-  { type: 6, description: "Fluffy pieces with ragged edges, a mushy stool" },
-  { type: 7, description: "Watery, no solid pieces, entirely liquid" },
-];
+import { POOP_ART } from "@/components/drop-a-log/poop-art/PoopArt";
+
+import { BRISTOL_TYPES, POOP_COLORS } from "@/constants";
 
 type Props = {
+  selectedType: number;
   onSelect: (type: number) => void;
+  color: string;
+  spicy: boolean;
 };
 
-export function Carousel({ onSelect }: Props) {
+export function Carousel({ onSelect, selectedType, color, spicy }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 3 });
 
   useEffect(() => {
@@ -31,49 +27,82 @@ export function Carousel({ onSelect }: Props) {
     });
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollTo(selectedType - 1, false);
+  }, [selectedType, emblaApi]);
+
+  const colors = getPoopColors(color);
+
   return (
-    <div className="embla">
-      <SlideViewport ref={emblaRef}>
-        <SlideContainer>
-          {BRISTOL_TYPES.map((stool) => (
+    <SlideViewport ref={emblaRef}>
+      <SlideContainer>
+        {BRISTOL_TYPES.map((stool) => {
+          const Artwork = POOP_ART[stool.type];
+          return (
             <Slide key={`bristol-${stool.type}`}>
               <SlideContents>
-                <p>{stool.type}</p>
-                <p>{stool.description}</p>
+                <Artwork
+                  className="poop"
+                  selected={stool.type === selectedType}
+                  spicy={spicy}
+                  primaryColor={colors.hex}
+                  secondaryColor={colors.accent}
+                />
+                <Description>{stool.description}</Description>
               </SlideContents>
             </Slide>
-          ))}
-        </SlideContainer>
-      </SlideViewport>
-    </div>
+          );
+        })}
+      </SlideContainer>
+    </SlideViewport>
   );
 }
 
+function getPoopColors(color: string) {
+  const poop = POOP_COLORS.find((c) => c.color === color);
+
+  if (!poop) {
+    throw new Error("getPoopColors was passed an erroneous color");
+  }
+
+  return poop;
+}
+
 const Slide = styled.div`
-  flex: 0 0 66%;
+  flex: 0 0 80%;
   min-width: 0;
-  height: 32rem;
-  padding-left: 1rem;
+  height: 40rem;
   display: flex;
+  position: relative;
+  padding: 1rem;
+  position: relative;
 `;
 
 const SlideContents = styled.div`
-  background-color: #000;
   width: 100%;
-  color: #fff;
-  border-radius: 0.5rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  flex-direction: column;
   height: 100%;
+  position: relative;
+  z-index: 5;
+  padding: 0 2rem;
 `;
 
 const SlideContainer = styled.div`
   display: flex;
   touch-action: pan-y pinch-zoom;
-  margin-left: -1rem;
 `;
 
 const SlideViewport = styled.div`
   overflow: hidden;
+`;
+
+const Description = styled.p`
+  font-size: 2rem;
+  font-weight: 400;
+  padding: 0 3rem;
+  width: 100%;
+  text-align: center;
 `;

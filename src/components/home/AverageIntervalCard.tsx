@@ -9,7 +9,7 @@ function formatMinutes(minutes: number): string {
   const m = Math.round(minutes % 60);
   if (h === 0) return `${m}m`;
   if (m === 0) return `${h}h`;
-  return `${h}:${m}`;
+  return `${h}h${m}m`;
 }
 
 export function AverageIntervalCard() {
@@ -19,16 +19,21 @@ export function AverageIntervalCard() {
       fetch("/api/poops/average-interval").then((res) => res.json()),
   });
 
+  const label = "Mean time between poops";
+  let stat = "";
+
   if (status === "pending") {
-    return <StatCard label="Avg interval" stat="..." />;
+    stat = "...";
   }
 
   if (status === "error") {
-    return <StatCard label="Avg interval" stat="!" />;
+    stat = "!";
   }
 
-  const stat =
-    data.averageMinutes === null ? "—" : formatMinutes(data.averageMinutes);
+  if (data !== undefined) {
+    stat =
+      data.averageMinutes === null ? "—" : formatMinutes(data.averageMinutes);
+  }
 
-  return <StatCard label="Avg interval" stat={stat} />;
+  return <StatCard label={label} stat={stat} slot="stat2" />;
 }

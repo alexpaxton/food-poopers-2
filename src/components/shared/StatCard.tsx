@@ -2,27 +2,32 @@
 
 import styled from "styled-components";
 
+import { COLORS } from "@/constants";
+
 type Props = {
   stat: string;
   label: string;
+  slot: "stat1" | "stat2" | "stat3" | "stat4";
 };
 
-export function StatCard({ label, stat }: Props) {
+export function StatCard({ label, stat, slot }: Props) {
   return (
-    <Card>
+    <Card $slot={slot}>
       <Label>{label}</Label>
       <Stat>{stat}</Stat>
     </Card>
   );
 }
 
-const Card = styled.dl`
-  background-color: #eee;
+const Card = styled.dl<{ $slot: string }>`
+  background-color: ${COLORS.bg.primary};
   border-radius: 0.5rem;
   padding: 2rem;
   gap: 1rem;
   display: flex;
   flex-direction: column;
+  grid-area: ${({ $slot }) => $slot};
+  border: ${COLORS.border.width} solid ${COLORS.border.primary};
 `;
 
 const Label = styled.dt`

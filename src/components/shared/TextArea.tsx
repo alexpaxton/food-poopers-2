@@ -5,47 +5,46 @@ import styled from "styled-components";
 
 import { COLORS } from "@/constants";
 
-type InputProps = {
+type TextAreaProps = {
   name: string;
-  type: "text" | "password" | "number";
   value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
   placeholder?: string;
-  min?: string;
-  step?: string;
 };
 
-export function Input({
+export function TextArea({
   name,
-  type,
   value,
   onChange,
   placeholder,
-  min,
-  step,
-}: InputProps) {
+}: TextAreaProps) {
   return (
-    <InputContainer>
-      <InputElement
+    <TextAreaContainer>
+      <TextAreaElement
         name={name}
-        type={type}
         value={value}
         placeholder={placeholder}
-        min={min}
-        step={step}
         onChange={onChange}
+        maxLength={2400}
       />
-      <InputGlow />
-    </InputContainer>
+      <TextAreaGlow />
+    </TextAreaContainer>
   );
 }
 
-const InputElement = styled.input`
+const TextAreaElement = styled.textarea`
+  font-family:
+    Nunito,
+    Nunito Fallback;
   width: 100%;
-  height: 5rem;
+  min-width: 100%;
+  max-width: 100%;
+  height: 11rem;
+  min-height: 11rem;
+  max-height: 11rem;
   border-radius: 0.75rem;
   background-color: ${COLORS.bg.primary};
-  padding: 0 1.5rem;
+  padding: 1.5rem;
   color: ${COLORS.text.primary};
   border: ${COLORS.border.width} solid ${COLORS.border.primary};
   transition:
@@ -61,7 +60,7 @@ const InputElement = styled.input`
   }
 `;
 
-const InputGlow = styled.div`
+const TextAreaGlow = styled.div`
   pointer-events: none;
   position: absolute;
   top: 50%;
@@ -79,12 +78,12 @@ const InputGlow = styled.div`
   transition: opacity 0.25s ease;
 `;
 
-const InputContainer = styled.div`
-  height: 5rem;
+const TextAreaContainer = styled.div`
+  height: 11rem;
   width: 100%;
   position: relative;
 
-  &:focus-within ${InputGlow} {
+  &:focus-within ${TextAreaGlow} {
     opacity: ${COLORS.glow.opacity};
   }
 `;

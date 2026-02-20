@@ -9,8 +9,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styled from "styled-components";
 
+import { COLORS } from "@/constants";
+
 const TABS = [
-  { label: "Home", href: "/", Icon: HouseIcon },
+  { label: "Me", href: "/me", Icon: HouseIcon },
   { label: "Log", href: "/drop-a-log", Icon: ArrowFatLineDownIcon },
   { label: "Leaderboard", href: "/leaderboard", Icon: TrophyIcon },
 ];
@@ -32,7 +34,7 @@ export function NavBar() {
 const Nav = styled.nav`
   grid-area: NavBar;
   display: grid;
-  border-top: 1px solid #e0e0e0;
+  border-top: ${COLORS.border.width} solid ${COLORS.border.primary};
   grid-template-columns: 1fr 1fr 1fr;
 `;
 
@@ -42,15 +44,17 @@ const Tab = styled(Link)<{ $active: boolean }>`
   justify-content: center;
   font-size: 0.9375rem;
   font-weight: ${({ $active }) => ($active ? "600" : "400")};
-  color: ${({ $active }) => ($active ? "#000" : "#666")};
+  color: ${({ $active }) =>
+    $active ? COLORS.text.primary : COLORS.text.secondary};
   text-decoration: none;
-  background: ${({ $active }) => ($active ? "#f0f0f0" : "transparent")};
+  background-color: ${({ $active }) =>
+    $active ? COLORS.bg.secondary : "transparent"};
   transition:
-    background 0.15s,
-    color 0.15s;
+    background-color 0.25s,
+    color 0.25s;
 
   &:hover {
-    background: #f0f0f0;
-    color: #000;
+    background: ${COLORS.bg.secondary};
+    color: ${COLORS.text.primary};
   }
 `;
