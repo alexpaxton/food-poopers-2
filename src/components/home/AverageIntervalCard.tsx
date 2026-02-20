@@ -22,10 +22,6 @@ export function AverageIntervalCard() {
   const label = "Mean time between poops";
   let stat = "";
 
-  if (status === "pending") {
-    stat = "...";
-  }
-
   if (status === "error") {
     stat = "!";
   }
@@ -35,5 +31,12 @@ export function AverageIntervalCard() {
       data.averageMinutes === null ? "—" : formatMinutes(data.averageMinutes);
   }
 
-  return <StatCard label={label} stat={stat} slot="stat2" />;
+  return (
+    <StatCard
+      label={label}
+      stat={stat}
+      slot="stat2"
+      loading={status === "pending"}
+    />
+  );
 }

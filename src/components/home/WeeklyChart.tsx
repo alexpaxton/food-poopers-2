@@ -11,9 +11,25 @@ import {
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 
+import { Spinner } from "@/components/shared/Spinner";
+
 import { COLORS } from "@/constants";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement);
+
+const gradientPlugin = {
+  id: "gradientBars",
+  beforeDatasetsDraw(chart: ChartJS) {
+    const {
+      ctx,
+      chartArea: { top, bottom },
+    } = chart;
+    const gradient = ctx.createLinearGradient(0, top, 0, bottom);
+    gradient.addColorStop(0, COLORS.glow.stop);
+    gradient.addColorStop(1, COLORS.glow.start);
+    chart.data.datasets[0].backgroundColor = gradient;
+  },
+};
 
 const DAY_LABELS = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
 
@@ -28,11 +44,19 @@ export function WeeklyChart() {
   });
 
   if (status === "pending") {
-    return <p>Loading...</p>;
+    return (
+      <Card>
+        <Spinner />
+      </Card>
+    );
   }
 
   if (status === "error") {
-    return <p>Error loading poops</p>;
+    return (
+      <Card>
+        <p>Error loading poops</p>
+      </Card>
+    );
   }
 
   const counts = Array(7).fill(0);
@@ -45,12 +69,12 @@ export function WeeklyChart() {
     <Card>
       <Chart>
         <Bar
+          plugins={[gradientPlugin]}
           data={{
             labels: DAY_LABELS,
             datasets: [
               {
                 data: counts,
-                backgroundColor: "#000",
                 borderWidth: 0,
                 borderRadius: 4,
                 categoryPercentage: 1,
@@ -102,11 +126,12 @@ export function WeeklyChart() {
 }
 
 const Card = styled.div`
+  position: relative;
   grid-area: chart;
   width: 100%;
   padding: 3rem;
   background-color: ${COLORS.bg.primary};
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   display: flex;
   flex-direction: column;
   height: 100%;

@@ -12,10 +12,6 @@ export function DailyAverageCard() {
   const label = "Mean lifetime poops/day";
   let stat = "";
 
-  if (status === "pending") {
-    stat = "...";
-  }
-
   if (status === "error") {
     stat = "!";
   }
@@ -24,5 +20,12 @@ export function DailyAverageCard() {
     stat = data.average.toFixed(1);
   }
 
-  return <StatCard label={label} stat={stat} slot="stat1" />;
+  return (
+    <StatCard
+      label={label}
+      stat={stat}
+      slot="stat1"
+      loading={status === "pending"}
+    />
+  );
 }
