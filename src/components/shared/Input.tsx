@@ -1,28 +1,34 @@
-"use client";
+'use client'
 
-import { ChangeEventHandler } from "react";
-import styled from "styled-components";
+import { ChangeEventHandler, FocusEventHandler } from 'react'
+import styled from 'styled-components'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 type InputProps = {
-  name: string;
-  type: "text" | "password" | "number";
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  placeholder?: string;
-  min?: string;
-  step?: string;
-};
+  name: string
+  type: 'text' | 'password' | 'number'
+  value: string
+  onChange: ChangeEventHandler<HTMLInputElement>
+  onBlur?: FocusEventHandler<HTMLInputElement>
+  placeholder?: string
+  min?: string
+  step?: string
+  maxLength?: number
+  disabled?: boolean
+}
 
 export function Input({
   name,
   type,
   value,
   onChange,
+  onBlur,
   placeholder,
   min,
   step,
+  maxLength = 2000,
+  disabled,
 }: InputProps) {
   return (
     <InputContainer>
@@ -34,10 +40,13 @@ export function Input({
         min={min}
         step={step}
         onChange={onChange}
+        onBlur={onBlur}
+        maxLength={maxLength}
+        disabled={disabled}
       />
       <InputGlow />
     </InputContainer>
-  );
+  )
 }
 
 const InputElement = styled.input`
@@ -59,7 +68,13 @@ const InputElement = styled.input`
   &:focus {
     border-color: ${COLORS.border.selected};
   }
-`;
+
+  &:disabled {
+    background-color: ${COLORS.bg.secondary};
+    border-color: ${COLORS.border.primary};
+    color: ${COLORS.text.secondary};
+  }
+`
 
 const InputGlow = styled.div`
   pointer-events: none;
@@ -77,7 +92,7 @@ const InputGlow = styled.div`
   border-radius: 1rem;
   opacity: 0;
   transition: opacity 0.25s ease;
-`;
+`
 
 const InputContainer = styled.div`
   height: 5rem;
@@ -87,4 +102,4 @@ const InputContainer = styled.div`
   &:focus-within ${InputGlow} {
     opacity: ${COLORS.glow.opacity};
   }
-`;
+`

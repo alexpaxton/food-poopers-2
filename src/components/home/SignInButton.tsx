@@ -1,14 +1,17 @@
-"use client";
+'use client'
 
-import { signIn } from "next-auth/react";
-import styled from "styled-components";
+import { signIn } from 'next-auth/react'
+import styled from 'styled-components'
 
 export function SignInButton() {
   return (
-    <GoogleButton onClick={() => signIn("google", { redirectTo: "/me" })}>
+    <GoogleButton
+      onClick={() => signIn('google', { redirectTo: '/onboarding' })}
+      type="button"
+    >
       Sign in with Google
     </GoogleButton>
-  );
+  )
 }
 
 const GoogleButton = styled.button`
@@ -31,4 +34,4 @@ const GoogleButton = styled.button`
     background: #f8f9fa;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
-`;
+`

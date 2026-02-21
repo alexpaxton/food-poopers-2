@@ -1,22 +1,22 @@
-import { redirect } from "next/navigation";
-import styled from "styled-components";
+import { redirect } from 'next/navigation'
+import styled from 'styled-components'
 
-import { SignInButton } from "@/components/home/SignInButton";
+import { SignInButton } from '@/components/home/SignInButton'
 
-import { auth } from "@/auth";
+import { auth } from '@/auth'
 
 export default async function Home() {
-  const session = await auth();
+  const session = await auth()
 
   if (session) {
-    redirect("/me");
+    redirect('/onboarding')
   }
 
   return (
     <Main>
       <SignInButton />
     </Main>
-  );
+  )
 }
 
 const Main = styled.main`
@@ -31,4 +31,4 @@ const Main = styled.main`
   gap: 2rem;
   align-items: center;
   justify-content: center;
-`;
+`

@@ -1,37 +1,44 @@
-"use client";
+'use client'
 
-import { SignOutIcon, XIcon } from "@phosphor-icons/react";
-import { signOut } from "next-auth/react";
-import { createContext, ReactNode, useContext, useState } from "react";
-import styled from "styled-components";
+import { SignOutIcon, XIcon } from '@phosphor-icons/react'
+import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
+import { createContext, ReactNode, useContext, useState } from 'react'
+import styled from 'styled-components'
 
-import { Avatar } from "@/components/shared/Avatar";
+import { Avatar } from '@/components/shared/Avatar'
 
 type FlyoutContextType = {
-  isVisible: boolean;
-  toggleFlyout: () => void;
-  showFlyout: () => void;
-  hideFlyout: () => void;
-};
+  isVisible: boolean
+  toggleFlyout: () => void
+  showFlyout: () => void
+  hideFlyout: () => void
+}
 
-const FlyoutContext = createContext<FlyoutContextType | undefined>(undefined);
+const FlyoutContext = createContext<FlyoutContextType | undefined>(undefined)
 
 type FlyoutProviderProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 export function FlyoutProvider({ children }: FlyoutProviderProps) {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false)
+  const router = useRouter()
 
   function toggleFlyout() {
-    setIsVisible((v) => !v);
+    setIsVisible((v) => !v)
   }
 
   function showFlyout() {
-    setIsVisible(true);
+    setIsVisible(true)
   }
 
   function hideFlyout() {
-    setIsVisible(false);
+    setIsVisible(false)
+  }
+
+  function navigateToAccount() {
+    router.push('/account')
+    setIsVisible(false)
   }
 
   return (
@@ -48,7 +55,7 @@ export function FlyoutProvider({ children }: FlyoutProviderProps) {
             <SignOutIcon color="#fff" size={32} />
             Sign out
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={navigateToAccount}>
             <Avatar />
             Account
           </MenuItem>
@@ -57,19 +64,19 @@ export function FlyoutProvider({ children }: FlyoutProviderProps) {
       <FlyoutMask $visible={isVisible} />
       {children}
     </FlyoutContext.Provider>
-  );
+  )
 }
 
 export function useFlyout(): FlyoutContextType {
-  const context = useContext(FlyoutContext);
+  const context = useContext(FlyoutContext)
 
   if (context === undefined) {
     throw new Error(
-      "useFlyout must be called from a child element of FlyoutProvider",
-    );
+      'useFlyout must be called from a child element of FlyoutProvider'
+    )
   }
 
-  return context;
+  return context
 }
 
 const Flyout = styled.div<{ $visible: boolean }>`
@@ -80,11 +87,11 @@ const Flyout = styled.div<{ $visible: boolean }>`
   height: 100dvh;
   z-index: 999;
   transform: ${({ $visible }) =>
-    $visible ? "translate3d(0, 0, 0 )" : "translate3d(100%, 0, 0 )"};
+    $visible ? 'translate3d(0, 0, 0 )' : 'translate3d(100%, 0, 0 )'};
   transition: transform 0.3s cubic-bezier(0.87, 0, 0.13, 1);
   display: flex;
   align-items: stretch;
-`;
+`
 
 const FlyoutMask = styled.div<{ $visible: boolean }>`
   background-color: rgba(0, 0, 0, 0.2);
@@ -98,7 +105,7 @@ const FlyoutMask = styled.div<{ $visible: boolean }>`
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   transform: translate3d(0, 0, 0);
   transition: opacity 0.3s cubic-bezier(0.87, 0, 0.13, 1);
-`;
+`
 
 const FlyoutMenu = styled.div`
   width: 77dvw;
@@ -108,11 +115,11 @@ const FlyoutMenu = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
-`;
+`
 
 const FlyoutMaskEscape = styled.div`
   flex: 1 0 0;
-`;
+`
 
 const CloseButton = styled.button`
   width: 9rem;
@@ -123,7 +130,7 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const MenuItem = styled.button`
   height: 9rem;
@@ -137,4 +144,4 @@ const MenuItem = styled.button`
   color: #fff;
   padding: 0 3rem;
   gap: 3rem;
-`;
+`

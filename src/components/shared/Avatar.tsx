@@ -1,36 +1,45 @@
-"use client";
+'use client'
 
-import { useSession } from "next-auth/react";
-import styled from "styled-components";
+import { useSession } from 'next-auth/react'
+import styled from 'styled-components'
 
-export function Avatar() {
-  const { data, status } = useSession({ required: true });
+import { COLORS } from '@/constants'
 
-  if (status === "loading" || data === null) {
-    return <EmptyCircle />;
+type Props = {
+  size?: string
+  variant?: 'invert' | 'default'
+}
+
+export function Avatar({ size = '4rem', variant = 'invert' }: Props) {
+  const { data, status } = useSession()
+
+  if (status === 'loading' || data === null) {
+    return <EmptyCircle $size={size} />
   }
 
   if (data.user === undefined) {
-    return <EmptyCircle />;
+    return <EmptyCircle $size={size} />
   }
 
   if (data.user.image === undefined || data.user.image === null) {
-    return <EmptyCircle />;
+    return <EmptyCircle $size={size} />
   }
 
-  return <Circle src={data.user.image} />;
+  return <ImageCircle $variant={variant} $size={size} src={data.user.image} />
 }
 
-const Circle = styled.img`
-  width: 4rem;
-  height: 4rem;
+const BaseCircle = styled.img<{ $size: string }>`
+  width: ${({ $size }) => $size};
+  height: ${({ $size }) => $size};
   border-radius: 50%;
-  border: 2px solid #fff;
-`;
+`
 
-const EmptyCircle = styled.div`
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background-color: #333;
-`;
+const ImageCircle = styled(BaseCircle)<{ $variant: 'invert' | 'default' }>`
+  border: 2px solid
+    ${({ $variant }) =>
+      $variant === 'invert' ? COLORS.bg.primary : COLORS.border.primary};
+`
+
+const EmptyCircle = styled(BaseCircle)`
+  background-color: ${COLORS.text.primary};
+`

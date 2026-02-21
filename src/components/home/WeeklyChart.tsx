@@ -1,68 +1,69 @@
-"use client";
+'use client'
 
-import { Poop } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
+import { Poop } from '@prisma/client'
+import { useQuery } from '@tanstack/react-query'
 import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
   LinearScale,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import styled from "styled-components";
+} from 'chart.js'
+import { Bar } from 'react-chartjs-2'
+import styled from 'styled-components'
 
-import { Spinner } from "@/components/shared/Spinner";
+import { Spinner } from '@/components/shared/Spinner'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement);
+ChartJS.register(CategoryScale, LinearScale, BarElement)
 
 const gradientPlugin = {
-  id: "gradientBars",
+  id: 'gradientBars',
   beforeDatasetsDraw(chart: ChartJS) {
     const {
       ctx,
       chartArea: { top, bottom },
-    } = chart;
-    const gradient = ctx.createLinearGradient(0, top, 0, bottom);
-    gradient.addColorStop(0, COLORS.glow.stop);
-    gradient.addColorStop(1, COLORS.glow.start);
-    chart.data.datasets[0].backgroundColor = gradient;
+    } = chart
+    const gradient = ctx.createLinearGradient(0, top, 0, bottom)
+    gradient.addColorStop(0, COLORS.glow.stop)
+    gradient.addColorStop(1, COLORS.glow.start)
+    chart.data.datasets[0].backgroundColor = gradient
   },
-};
+}
 
-const DAY_LABELS = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
+const DAY_LABELS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
 
 function getIsoWeekday(date: Date): number {
-  return date.getDay(); // 0 = Sunday, 6 = Saturday
+  return date.getDay() // 0 = Sunday, 6 = Saturday
 }
 
 export function WeeklyChart() {
-  const { data: poops = [], status } = useQuery<Poop[]>({
-    queryKey: ["my-weekly-poops"],
-    queryFn: () => fetch("/api/poops").then((res) => res.json()),
-  });
+  const { data, status } = useQuery<Poop[]>({
+    queryKey: ['my-weekly-poops'],
+    queryFn: () => fetch('/api/poops').then((res) => res.json()),
+  })
+  const poops = Array.isArray(data) ? data : []
 
-  if (status === "pending") {
+  if (status === 'pending') {
     return (
       <Card>
         <Spinner />
       </Card>
-    );
+    )
   }
 
-  if (status === "error") {
+  if (status === 'error') {
     return (
       <Card>
         <p>Error loading poops</p>
       </Card>
-    );
+    )
   }
 
-  const counts = Array(7).fill(0);
+  const counts = Array(7).fill(0)
   for (const poop of poops) {
-    const day = getIsoWeekday(new Date(poop.createdAt));
-    counts[day]++;
+    const day = getIsoWeekday(new Date(poop.createdAt))
+    counts[day]++
   }
 
   return (
@@ -122,7 +123,7 @@ export function WeeklyChart() {
         ))}
       </DailyTotals>
     </Card>
-  );
+  )
 }
 
 const Card = styled.div`
@@ -136,16 +137,16 @@ const Card = styled.div`
   flex-direction: column;
   height: 100%;
   border: ${COLORS.border.width} solid ${COLORS.border.primary};
-`;
+`
 
 const Chart = styled.div`
   flex: 1 0 0;
-`;
+`
 
 const DailyTotals = styled.div`
   width: 100%;
   display: flex;
-`;
+`
 
 const Total = styled.div`
   flex: 1 0 0;
@@ -153,17 +154,17 @@ const Total = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-`;
+`
 
 const Spacer = styled.div`
   flex: 0 0 6px;
   height: 4rem;
-`;
+`
 
 const Day = styled.h6`
   font-size: 2rem;
   font-weight: 400;
-`;
+`
 
 const Count = styled.div`
   background-color: ${COLORS.border.selected};
@@ -177,4 +178,4 @@ const Count = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
