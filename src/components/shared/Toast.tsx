@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { XIcon } from "@phosphor-icons/react";
-import { useRef } from "react";
-import { CSSTransition } from "react-transition-group";
-import styled, { css } from "styled-components";
+import { XIcon } from '@phosphor-icons/react'
+import { useRef } from 'react'
+import { CSSTransition } from 'react-transition-group'
+import styled, { css } from 'styled-components'
 
-import { useToasts } from "@/components/shared/ToastProvider";
+import { useToasts } from '@/components/shared/ToastProvider'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
-import { ToastType } from "@/types";
+import { ToastType } from '@/types'
 
 export function Toast() {
-  const nodeRef = useRef<HTMLDivElement>(null);
-  const { toast, dismiss } = useToasts();
-  const toastExists = toast.dismissed === false;
+  const nodeRef = useRef<HTMLDivElement>(null)
+  const { toast, dismiss } = useToasts()
+  const toastExists = toast.dismissed === false
 
   return (
     <CSSTransition
@@ -26,7 +26,7 @@ export function Toast() {
     >
       <Card
         ref={nodeRef}
-        $type={toast.type || "info"}
+        $type={toast.type || 'info'}
         onClick={dismiss}
         $fullScreen={toast.fullScreen || false}
       >
@@ -38,43 +38,43 @@ export function Toast() {
         <X weight="regular" color={COLORS.text.primary} size={32} />
       </Card>
     </CSSTransition>
-  );
+  )
 }
 
 const CARD_THEME: Record<ToastType, string> = {
   success: COLORS.toast.success,
   info: COLORS.toast.info,
   error: COLORS.toast.error,
-};
+}
 
 const Message = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const Heading = styled.p`
   letter-spacing: -0.01em;
   font-weight: 700;
-`;
+`
 
 const Body = styled.p`
   font-weight: 400;
-`;
+`
 
 const Emoji = styled.span`
   display: inline-block;
-`;
+`
 
 const X = styled(XIcon)`
   position: absolute;
   top: 3rem;
   right: 3rem;
-`;
+`
 
 const CompactStyles = css`
   display: grid;
   grid-template-columns: 6rem 1fr;
-  grid-template-areas: "emoji message";
+  grid-template-areas: 'emoji message';
   gap: 2rem;
 
   ${Emoji} {
@@ -91,7 +91,7 @@ const CompactStyles = css`
   ${Body} {
     font-size: 2rem;
   }
-`;
+`
 
 const FullScreenStyles = css`
   display: flex;
@@ -116,7 +116,7 @@ const FullScreenStyles = css`
   ${Message} {
     gap: 1.5rem;
   }
-`;
+`
 
 const Card = styled.div<{ $type: ToastType; $fullScreen: boolean }>`
   position: absolute;
@@ -152,4 +152,4 @@ const Card = styled.div<{ $type: ToastType; $fullScreen: boolean }>`
       opacity 200ms cubic-bezier(0.7, 0, 0.84, 0),
       transform 200ms cubic-bezier(0.7, 0, 0.84, 0);
   }
-`;
+`

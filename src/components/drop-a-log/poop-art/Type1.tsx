@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Accent,
@@ -7,9 +7,9 @@ import {
   Main,
   Outline,
   PoopArtProps,
-} from "@/components/drop-a-log/poop-art/shared";
+} from '@/components/drop-a-log/poop-art/shared'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 export function Type1({
   className,
@@ -149,5 +149,5 @@ export function Type1({
         </g>
       </g>
     </svg>
-  );
+  )
 }

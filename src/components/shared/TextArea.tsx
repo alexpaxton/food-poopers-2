@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { ChangeEventHandler } from "react";
-import styled from "styled-components";
+import { ChangeEventHandler } from 'react'
+import styled from 'styled-components'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 type TextAreaProps = {
-  name: string;
-  value: string;
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
-  placeholder?: string;
-};
+  name: string
+  value: string
+  onChange: ChangeEventHandler<HTMLTextAreaElement>
+  placeholder?: string
+}
 
 export function TextArea({
   name,
@@ -29,7 +29,7 @@ export function TextArea({
       />
       <TextAreaGlow />
     </TextAreaContainer>
-  );
+  )
 }
 
 const TextAreaElement = styled.textarea`
@@ -58,7 +58,7 @@ const TextAreaElement = styled.textarea`
   &:focus {
     border-color: ${COLORS.border.selected};
   }
-`;
+`
 
 const TextAreaGlow = styled.div`
   pointer-events: none;
@@ -76,7 +76,7 @@ const TextAreaGlow = styled.div`
   border-radius: 1rem;
   opacity: 0;
   transition: opacity 0.25s ease;
-`;
+`
 
 const TextAreaContainer = styled.div`
   height: 11rem;
@@ -86,4 +86,4 @@ const TextAreaContainer = styled.div`
   &:focus-within ${TextAreaGlow} {
     opacity: ${COLORS.glow.opacity};
   }
-`;
+`

@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import { BRISTOL_TYPES, COLORS } from "@/constants";
+import { BRISTOL_TYPES, COLORS } from '@/constants'
 
 type Props = {
-  onSelect: (type: number) => void;
-  selectedType: number;
-};
+  onSelect: (type: number) => void
+  selectedType: number
+}
 
 export function TypePicker({ onSelect, selectedType }: Props) {
   return (
@@ -23,7 +23,7 @@ export function TypePicker({ onSelect, selectedType }: Props) {
         </Button>
       ))}
     </Grid>
-  );
+  )
 }
 
 const Grid = styled.div`
@@ -31,14 +31,14 @@ const Grid = styled.div`
   padding: 0 3rem;
   gap: 0.25rem;
   justify-content: space-between;
-`;
+`
 
 const Button = styled.div`
   position: relative;
   cursor: pointer;
   height: 5rem;
   width: 5rem;
-`;
+`
 
 const Circle = styled.div<{ $selected: boolean }>`
   z-index: 3;
@@ -62,7 +62,7 @@ const Circle = styled.div<{ $selected: boolean }>`
   transition: border-color 0.25s ease;
   font-size: 2rem;
   font-weight: 800;
-`;
+`
 
 const Glow = styled.div<{ $selected: boolean }>`
   z-index: 2;
@@ -80,4 +80,4 @@ const Glow = styled.div<{ $selected: boolean }>`
   border-radius: 50%;
   transition: opacity 0.25s ease;
   opacity: ${({ $selected }) => ($selected ? COLORS.glow.opacity : 0)};
-`;
+`

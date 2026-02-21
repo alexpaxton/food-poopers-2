@@ -81,7 +81,7 @@ export function Onboarding() {
       <SubHeading>
         Welcome to Food Poopers, the app for tracking your movements.
       </SubHeading>
-      <SubHeading>{`Before you start tracking you'll need to pick an alias`}</SubHeading>
+      <SubHeading>{`Before you start tracking you'll need to pick an alias. This is how others will see you on the leaderboard.`}</SubHeading>
       <InputWrapper>
         <Input
           type="text"
@@ -148,6 +148,7 @@ const InputWrapper = styled.div`
 const Validation = styled.div`
   font-size: 1.5rem;
   color: ${COLORS.text.secondary};
+  padding-left: 1.5rem;
 `
 
 const ButtonGroup = styled.div`

@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import styled from "styled-components";
+import styled from 'styled-components'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 type Props = {
-  active: boolean;
-  onToggle: (active: boolean) => void;
-};
+  active: boolean
+  onToggle: (active: boolean) => void
+}
 
 export function Toggle({ active, onToggle }: Props) {
   return (
@@ -16,7 +16,7 @@ export function Toggle({ active, onToggle }: Props) {
       <ActiveTrack $active={active} />
       <Glow $active={active} />
     </Track>
-  );
+  )
 }
 
 const Knob = styled.div<{ $active: boolean }>`
@@ -24,7 +24,7 @@ const Knob = styled.div<{ $active: boolean }>`
   left: 0;
   top: 50%;
   transform: translate3d(
-    ${({ $active }) => ($active ? "4.25rem" : "0.25rem")},
+    ${({ $active }) => ($active ? '4.25rem' : '0.25rem')},
     -50%,
     0
   );
@@ -37,7 +37,7 @@ const Knob = styled.div<{ $active: boolean }>`
   border: ${COLORS.border.width} solid ${COLORS.border.selected};
   background-color: ${COLORS.bg.primary};
   z-index: 3;
-`;
+`
 
 const Track = styled.div<{ $active: boolean }>`
   width: 9rem;
@@ -48,7 +48,7 @@ const Track = styled.div<{ $active: boolean }>`
       $active ? COLORS.border.selected : COLORS.border.primary};
   background-color: ${COLORS.bg.secondary};
   position: relative;
-`;
+`
 
 const ActiveTrack = styled.div<{ $active: boolean }>`
   position: absolute;
@@ -65,7 +65,7 @@ const ActiveTrack = styled.div<{ $active: boolean }>`
     ${COLORS.fire.stop} 100%
   );
   z-index: 2;
-`;
+`
 
 const Glow = styled.div<{ $active: boolean }>`
   position: absolute;
@@ -82,4 +82,4 @@ const Glow = styled.div<{ $active: boolean }>`
   border-radius: 3.5rem;
   transition: opacity 0.25s ease;
   opacity: ${({ $active }) => ($active ? COLORS.glow.opacity : 0)};
-`;
+`

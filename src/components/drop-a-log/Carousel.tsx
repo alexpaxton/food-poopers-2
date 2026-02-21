@@ -1,44 +1,44 @@
-"use client";
+'use client'
 
-import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
-import styled from "styled-components";
+import useEmblaCarousel from 'embla-carousel-react'
+import { useEffect } from 'react'
+import styled from 'styled-components'
 
-import { POOP_ART } from "@/components/drop-a-log/poop-art/PoopArt";
+import { POOP_ART } from '@/components/drop-a-log/poop-art/PoopArt'
 
-import { BRISTOL_TYPES, POOP_COLORS } from "@/constants";
+import { BRISTOL_TYPES, POOP_COLORS } from '@/constants'
 
 type Props = {
-  selectedType: number;
-  onSelect: (type: number) => void;
-  color: string;
-  spicy: boolean;
-};
+  selectedType: number
+  onSelect: (type: number) => void
+  color: string
+  spicy: boolean
+}
 
 export function Carousel({ onSelect, selectedType, color, spicy }: Props) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 3 });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, startIndex: 3 })
 
   useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.on("select", (embla) => {
-      const selectedIndex = embla.selectedScrollSnap();
-      const stool = BRISTOL_TYPES[selectedIndex];
-      onSelect(stool.type);
-    });
-  }, [emblaApi, onSelect]);
+    if (!emblaApi) return
+    emblaApi.on('select', (embla) => {
+      const selectedIndex = embla.selectedScrollSnap()
+      const stool = BRISTOL_TYPES[selectedIndex]
+      onSelect(stool.type)
+    })
+  }, [emblaApi, onSelect])
 
   useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.scrollTo(selectedType - 1, false);
-  }, [selectedType, emblaApi]);
+    if (!emblaApi) return
+    emblaApi.scrollTo(selectedType - 1, false)
+  }, [selectedType, emblaApi])
 
-  const colors = getPoopColors(color);
+  const colors = getPoopColors(color)
 
   return (
     <SlideViewport ref={emblaRef}>
       <SlideContainer>
         {BRISTOL_TYPES.map((stool) => {
-          const Artwork = POOP_ART[stool.type];
+          const Artwork = POOP_ART[stool.type]
           return (
             <Slide key={`bristol-${stool.type}`}>
               <SlideContents>
@@ -52,21 +52,21 @@ export function Carousel({ onSelect, selectedType, color, spicy }: Props) {
                 <Description>{stool.description}</Description>
               </SlideContents>
             </Slide>
-          );
+          )
         })}
       </SlideContainer>
     </SlideViewport>
-  );
+  )
 }
 
 function getPoopColors(color: string) {
-  const poop = POOP_COLORS.find((c) => c.color === color);
+  const poop = POOP_COLORS.find((c) => c.color === color)
 
   if (!poop) {
-    throw new Error("getPoopColors was passed an erroneous color");
+    throw new Error('getPoopColors was passed an erroneous color')
   }
 
-  return poop;
+  return poop
 }
 
 const Slide = styled.div`
@@ -77,7 +77,7 @@ const Slide = styled.div`
   position: relative;
   padding: 1rem;
   position: relative;
-`;
+`
 
 const SlideContents = styled.div`
   width: 100%;
@@ -88,16 +88,16 @@ const SlideContents = styled.div`
   position: relative;
   z-index: 5;
   padding: 0 2rem;
-`;
+`
 
 const SlideContainer = styled.div`
   display: flex;
   touch-action: pan-y pinch-zoom;
-`;
+`
 
 const SlideViewport = styled.div`
   overflow: hidden;
-`;
+`
 
 const Description = styled.p`
   font-size: 2rem;
@@ -105,4 +105,4 @@ const Description = styled.p`
   padding: 0 3rem;
   width: 100%;
   text-align: center;
-`;
+`

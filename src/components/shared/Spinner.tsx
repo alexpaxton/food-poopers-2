@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 export function Spinner() {
-  return <Ring />;
+  return <Ring />
 }
 
 const SpinAnimation = keyframes`
@@ -15,7 +15,7 @@ const SpinAnimation = keyframes`
   to {
     transform: translate3d(-50%, -50%, 0) rotate(360deg);
   }
-`;
+`
 
 const Ring = styled.div`
   width: 4rem;
@@ -28,4 +28,4 @@ const Ring = styled.div`
   left: 50%;
   position: absolute;
   animation: 1s infinite linear ${SpinAnimation};
-`;
+`

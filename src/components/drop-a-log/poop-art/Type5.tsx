@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Accent,
@@ -7,9 +7,9 @@ import {
   Main,
   Outline,
   PoopArtProps,
-} from "@/components/drop-a-log/poop-art/shared";
+} from '@/components/drop-a-log/poop-art/shared'
 
-import { COLORS } from "@/constants";
+import { COLORS } from '@/constants'
 
 export function Type5({
   className,
@@ -116,5 +116,5 @@ export function Type5({
         d="M265.81,217.52c-7.55,1.04-11.25,6.26-11.68,10.83-.43,4.57,3.25,8.1,3.44,13.39.19,5.29-1.21,13.63,2.38,16.63,3.59,2.99,8.72,6.06,14.28-2.1,5.56-8.16,13.9-15.65,4.49-18.21-9.41-2.57-12.67-4.22-10.19-9.7,2.49-5.48.6-11.29-2.73-10.83Z"
       />
     </svg>
-  );
+  )
 }

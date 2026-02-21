@@ -1,47 +1,47 @@
-import nextConfig from "eslint-config-next/core-web-vitals";
-import nextTypescript from "eslint-config-next/typescript";
-import prettierConfig from "eslint-config-prettier/flat";
-import noRelativeImportPaths from "eslint-plugin-no-relative-import-paths";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
+import nextConfig from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
+import prettierConfig from 'eslint-config-prettier/flat'
+import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 
 const eslintConfig = [
   ...nextConfig,
   ...nextTypescript,
   {
     plugins: {
-      "no-relative-import-paths": noRelativeImportPaths,
-      "simple-import-sort": simpleImportSort,
+      'no-relative-import-paths': noRelativeImportPaths,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
-      "no-relative-import-paths/no-relative-import-paths": [
-        "error",
-        { prefix: "@", rootDir: "src" },
+      'no-relative-import-paths/no-relative-import-paths': [
+        'error',
+        { prefix: '@', rootDir: 'src' },
       ],
-      "simple-import-sort/imports": [
-        "error",
+      'simple-import-sort/imports': [
+        'error',
         {
           groups: [
             // Libraries (external packages)
-            ["^(?!@/)"],
+            ['^(?!@/)'],
             // Utilities
-            ["^@/utils", "^@/lib"],
+            ['^@/utils', '^@/lib'],
             // Shared components
-            ["^@/components/shared"],
+            ['^@/components/shared'],
             // Local components
-            ["^@/components"],
+            ['^@/components'],
             // Constants
-            ["^@/constants"],
+            ['^@/constants'],
             // Types
-            ["^@/types"],
+            ['^@/types'],
             // Side-effect imports (e.g. CSS)
-            ["^\\u0000"],
+            ['^\\u0000'],
           ],
         },
       ],
-      "simple-import-sort/exports": "error",
+      'simple-import-sort/exports': 'error',
     },
   },
   prettierConfig,
-];
+]
 
-export default eslintConfig;
+export default eslintConfig
