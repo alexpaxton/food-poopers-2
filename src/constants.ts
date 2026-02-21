@@ -43,4 +43,9 @@ export const COLORS = {
     secondary: "#666",
     invert: "#fff",
   },
+  toast: {
+    success: `linear-gradient(116deg, rgba(158, 217, 119, 1) 0%, rgba(72, 189, 132, 1) 100%);`,
+    info: `linear-gradient(116deg, #00b7ff 0%, #ba8cff 100%);`,
+    error: `linear-gradient(116deg, #f44e4e 0%, #ba8cff 100%);`,
+  },
 };

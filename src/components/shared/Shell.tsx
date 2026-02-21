@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { useFlyout } from "@/components/shared/FlyoutProvider";
 import { NavBar } from "@/components/shared/NavBar";
+import { Toast } from "@/components/shared/Toast";
 
 import { COLORS } from "@/constants";
 
@@ -15,17 +16,21 @@ type Props = {
 
 export function Shell({ children, name }: Props) {
   const { showFlyout } = useFlyout();
+
   return (
-    <Page>
-      <PageHeader>
-        <PageTitle>{name}</PageTitle>
-        <FlyoutButton onClick={showFlyout}>
-          <ListIcon color={COLORS.text.primary} size={32} />
-        </FlyoutButton>
-      </PageHeader>
-      <PageBody>{children}</PageBody>
-      <NavBar />
-    </Page>
+    <>
+      <Page>
+        <PageHeader>
+          <PageTitle>{name}</PageTitle>
+          <FlyoutButton onClick={showFlyout}>
+            <ListIcon color={COLORS.text.primary} size={32} />
+          </FlyoutButton>
+        </PageHeader>
+        <PageBody>{children}</PageBody>
+        <NavBar />
+      </Page>
+      <Toast />
+    </>
   );
 }
 

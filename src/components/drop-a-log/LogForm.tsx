@@ -1,12 +1,12 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import styled from "styled-components";
 
 import { Button } from "@/components/shared/Button";
 import { Input } from "@/components/shared/Input";
 import { TextArea } from "@/components/shared/TextArea";
+import { useToasts } from "@/components/shared/ToastProvider";
 
 import { Carousel } from "@/components/drop-a-log/Carousel";
 import { ColorPicker } from "@/components/drop-a-log/ColorPicker";
@@ -54,12 +54,30 @@ export function LogForm() {
     initialValue: INITIAL_FORM_STATE,
     key: "log-form",
   });
-  const [locationError, setLocationError] = useState<string | null>(null);
+  const { notify } = useToasts();
 
   const mutation = useMutation({
     mutationFn: postPoop,
     onSuccess: () => {
+      notify({
+        type: "success",
+        heading: "Yeehaw!",
+        body: `Excellent shid pardner`,
+        dismissable: true,
+        fullScreen: true,
+        emoji: "💩",
+      });
       setForm(INITIAL_FORM_STATE);
+    },
+    onError: () => {
+      notify({
+        type: "error",
+        heading: "Oh no",
+        body: "Something went wrong. Please try again.",
+        dismissable: true,
+        fullScreen: false,
+        emoji: "🫠",
+      });
     },
   });
 
@@ -80,8 +98,6 @@ export function LogForm() {
     e.preventDefault();
     if (!form.type) return;
 
-    setLocationError(null);
-
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         mutation.mutate({
@@ -94,11 +110,15 @@ export function LogForm() {
           notes: form.notes !== "" ? form.notes : null,
         });
       },
-      () => {
-        setLocationError(
-          "Unable to get location. Please allow location access and try again.",
-        );
-      },
+      () =>
+        notify({
+          type: "error",
+          heading: "Unable to get location",
+          body: "Please allow location access and try again.",
+          dismissable: true,
+          fullScreen: false,
+          emoji: "🌎",
+        }),
     );
   }
 
@@ -138,12 +158,6 @@ export function LogForm() {
           {mutation.isPending ? "Locating…" : "Drop a log"}
         </Button>
       </OneColumn>
-
-      {locationError && <ErrorText>{locationError}</ErrorText>}
-      {mutation.isError && (
-        <ErrorText>Something went wrong. Please try again.</ErrorText>
-      )}
-      {mutation.isSuccess && <SuccessText>Poop logged!</SuccessText>}
     </Form>
   );
 }
@@ -163,19 +177,10 @@ const TwoColumns = styled.div`
   gap: 3rem;
   padding: 0 3rem;
 `;
+
 const OneColumn = styled.div`
   padding: 0 3rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-`;
-
-const ErrorText = styled.p`
-  font-size: 0.875rem;
-  color: #c0392b;
-`;
-
-const SuccessText = styled.p`
-  font-size: 0.875rem;
-  color: #27ae60;
 `;

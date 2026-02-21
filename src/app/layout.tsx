@@ -6,6 +6,7 @@ import { QueryProvider } from "@/lib/query-provider";
 import StyledComponentsRegistry from "@/lib/registry";
 
 import { FlyoutProvider } from "@/components/shared/FlyoutProvider";
+import { ToastProvider } from "@/components/shared/ToastProvider";
 
 import "@/app/globals.css";
 
@@ -34,7 +35,9 @@ export default function RootLayout({
         <StyledComponentsRegistry>
           <SessionProvider>
             <QueryProvider>
-              <FlyoutProvider>{children}</FlyoutProvider>
+              <ToastProvider>
+                <FlyoutProvider>{children}</FlyoutProvider>
+              </ToastProvider>
             </QueryProvider>
           </SessionProvider>
         </StyledComponentsRegistry>
