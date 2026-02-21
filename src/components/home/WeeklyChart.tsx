@@ -8,6 +8,7 @@ import {
   Chart as ChartJS,
   LinearScale,
 } from 'chart.js'
+import Gradient from 'chartjs-plugin-gradient'
 import { Bar } from 'react-chartjs-2'
 import styled from 'styled-components'
 
@@ -15,21 +16,7 @@ import { Spinner } from '@/components/shared/Spinner'
 
 import { COLORS } from '@/constants'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement)
-
-const gradientPlugin = {
-  id: 'gradientBars',
-  beforeDatasetsDraw(chart: ChartJS) {
-    const {
-      ctx,
-      chartArea: { top, bottom },
-    } = chart
-    const gradient = ctx.createLinearGradient(0, top, 0, bottom)
-    gradient.addColorStop(0, COLORS.glow.stop)
-    gradient.addColorStop(1, COLORS.glow.start)
-    chart.data.datasets[0].backgroundColor = gradient
-  },
-}
+ChartJS.register(Gradient, CategoryScale, LinearScale, BarElement)
 
 const DAY_LABELS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
 
@@ -70,7 +57,7 @@ export function WeeklyChart() {
     <Card>
       <Chart>
         <Bar
-          plugins={[gradientPlugin]}
+          plugins={[Gradient]}
           data={{
             labels: DAY_LABELS,
             datasets: [
@@ -80,6 +67,16 @@ export function WeeklyChart() {
                 borderRadius: 4,
                 categoryPercentage: 1,
                 barPercentage: 0.8,
+                gradient: {
+                  backgroundColor: {
+                    axis: 'y',
+                    colors: {
+                      0: COLORS.glow.start,
+                      3: COLORS.glow.stop,
+                      6: COLORS.fire.stop,
+                    },
+                  },
+                },
               },
             ],
           }}
