@@ -12,21 +12,30 @@ export const GET = auth(async (req) => {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const now = new Date()
-  const dayOfWeek = now.getDay() // 0 = Sunday, 1 = Monday, ...
-  const daysFromMonday = (dayOfWeek + 6) % 7
-  const weekStart = new Date(now)
-  weekStart.setDate(now.getDate() - daysFromMonday)
-  weekStart.setHours(0, 0, 0, 0)
-  const weekEnd = new Date(weekStart)
-  weekEnd.setDate(weekStart.getDate() + 7)
+  const sinceParam = req.nextUrl.searchParams.get('since')
+
+  let start: Date
+  let end: Date | undefined
+
+  if (sinceParam) {
+    start = new Date(sinceParam)
+    end = undefined
+  } else {
+    const now = new Date()
+    const dayOfWeek = now.getDay()
+    start =
+      dayOfWeek === 0 ? now : new Date(now.setDate(now.getDate() - dayOfWeek))
+    start.setHours(0, 0, 0, 0)
+    end = new Date(start)
+    end.setDate(start.getDate() + 6)
+  }
 
   const poops = await prisma.poop.findMany({
     where: {
       userId: req.auth.user.id,
-      createdAt: { gte: weekStart, lt: weekEnd },
+      createdAt: { gte: start, ...(end ? { lt: end } : {}) },
     },
-    orderBy: { createdAt: 'asc' },
+    orderBy: { createdAt: 'desc' },
   })
 
   return NextResponse.json(poops)

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { AverageIntervalCard } from '@/components/home/AverageIntervalCard'
 import { DailyAverageCard } from '@/components/home/DailyAverageCard'
+import { Logs } from '@/components/home/Logs'
 import { WeeklyChart } from '@/components/home/WeeklyChart'
 
 export function Me() {
@@ -12,6 +13,7 @@ export function Me() {
       <WeeklyChart />
       <DailyAverageCard />
       <AverageIntervalCard />
+      <Logs />
     </StatContainer>
   )
 }
@@ -20,10 +22,10 @@ const StatContainer = styled.div`
   display: grid;
   min-height: 100%;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto 120px 120px;
+  grid-template-rows: 300px 120px auto;
   gap: 3rem;
   grid-template-areas:
     'chart chart'
     'stat1 stat2'
-    'stat3 stat4';
+    'logs logs';
 `

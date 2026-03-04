@@ -7,6 +7,7 @@ import {
   CategoryScale,
   Chart as ChartJS,
   LinearScale,
+  Plugin,
 } from 'chart.js'
 import Gradient from 'chartjs-plugin-gradient'
 import { Bar } from 'react-chartjs-2'
@@ -19,6 +20,27 @@ import { COLORS } from '@/constants'
 ChartJS.register(Gradient, CategoryScale, LinearScale, BarElement)
 
 const DAY_LABELS = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']
+const TODAY = new Date().getDay()
+
+const todayHighlightPlugin: Plugin<'bar'> = {
+  id: 'todayHighlight',
+  beforeDatasetsDraw(chart) {
+    const { ctx, chartArea } = chart
+    if (!chartArea) return
+    const bar = chart.getDatasetMeta(0).data[TODAY]
+    if (!bar) return
+    const columnWidth = (chartArea.right - chartArea.left) / DAY_LABELS.length
+    ctx.save()
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)'
+    ctx.fillRect(
+      bar.x - columnWidth / 2,
+      chartArea.top,
+      columnWidth,
+      chartArea.bottom - chartArea.top
+    )
+    ctx.restore()
+  },
+}
 
 function getIsoWeekday(date: Date): number {
   return date.getDay() // 0 = Sunday, 6 = Saturday
@@ -55,9 +77,10 @@ export function WeeklyChart() {
 
   return (
     <Card>
+      <Title>{`This week`}</Title>
       <Chart>
         <Bar
-          plugins={[Gradient]}
+          plugins={[Gradient, todayHighlightPlugin]}
           data={{
             labels: DAY_LABELS,
             datasets: [
@@ -115,7 +138,9 @@ export function WeeklyChart() {
         {counts.map((count, i) => (
           <Total key={`${DAY_LABELS[i]}-count`}>
             <Day>{DAY_LABELS[i]}</Day>
-            {count > 0 ? <Count>{count}</Count> : undefined}
+            {count > 0 ? (
+              <Count $isToday={i === TODAY}>{count}</Count>
+            ) : undefined}
           </Total>
         ))}
       </DailyTotals>
@@ -136,6 +161,12 @@ const Card = styled.div`
   border: ${COLORS.border.width} solid ${COLORS.border.primary};
 `
 
+const Title = styled.h6`
+  font-size: 2rem;
+  color: ${COLORS.text.secondary};
+  padding-bottom: 1.5rem;
+`
+
 const Chart = styled.div`
   flex: 1 0 0;
 `
@@ -151,6 +182,7 @@ const Total = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  border-radius: 0 0 4px 4px;
 `
 
 const Spacer = styled.div`
@@ -160,17 +192,17 @@ const Spacer = styled.div`
 
 const Day = styled.h6`
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 600;
 `
 
-const Count = styled.div`
+const Count = styled.div<{ $isToday: boolean }>`
   background-color: ${COLORS.border.selected};
   color: ${COLORS.text.invert};
-  font-size: 2rem;
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
-  flex: 0 0 3rem;
+  font-size: ${({ $isToday }) => ($isToday ? '2.5rem' : '2rem')};
+  border-radius: 1rem;
+  height: ${({ $isToday }) => ($isToday ? '4rem' : '3rem')};
+  width: ${({ $isToday }) => ($isToday ? '4rem' : '3rem')};
+  flex: 0 0 ${({ $isToday }) => ($isToday ? '4rem' : '3rem')};
   font-weight: 700;
   display: flex;
   align-items: center;
