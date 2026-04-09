@@ -65,7 +65,7 @@ const BUTTON_STYLES: Record<ButtonVariant, RuleSet> = {
 const Element = styled.button<{ $variant: ButtonVariant }>`
   height: 5rem;
   padding: 0 2rem;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   font-size: 2rem;
   font-weight: 800;
   cursor: pointer;

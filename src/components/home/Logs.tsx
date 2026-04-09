@@ -90,9 +90,10 @@ const Container = styled.div`
   gap: 1.5rem;
   padding: 3rem;
   background-color: ${COLORS.bg.primary};
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   border: ${COLORS.border.width} solid ${COLORS.border.primary};
   overflow-y: auto;
+  position: relative;
 `
 
 const Title = styled.h6`

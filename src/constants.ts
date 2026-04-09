@@ -5,7 +5,7 @@ export const POOP_COLORS: { color: string; hex: string; accent: string }[] = [
   { color: 'Brown', hex: '#5b3e29', accent: '#493222' },
   { color: 'White', hex: '#f4eee6', accent: '#d6d2cc' },
   { color: 'Red', hex: '#932424', accent: '#771e1e' },
-  { color: 'Orange', hex: '#b76413', accent: '#9b5012' },
+  // { color: 'Orange', hex: '#b76413', accent: '#9b5012' },
 ]
 
 export const BRISTOL_TYPES = [
@@ -34,7 +34,7 @@ export const COLORS = {
     secondary: '#f0f0f0',
   },
   border: {
-    primary: '#e0e0e0',
+    primary: '#e9e9e9',
     selected: '#000',
     width: '2px',
   },
