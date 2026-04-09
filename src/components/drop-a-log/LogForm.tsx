@@ -123,6 +123,10 @@ export function LogForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Controls>
+        <SpicyToggle spicy={form.spicy} onToggleSpicy={handleToggleSpicy} />
+        <ColorPicker onSelect={handleSelectColor} selectedColor={form.color} />
+      </Controls>
       <Carousel
         onSelect={handleSelectType}
         selectedType={form.type}
@@ -130,9 +134,7 @@ export function LogForm() {
         spicy={form.spicy}
       />
       <TypePicker onSelect={handleSelectType} selectedType={form.type} />
-      <ColorPicker onSelect={handleSelectColor} selectedColor={form.color} />
-      <TwoColumns>
-        <SpicyToggle spicy={form.spicy} onToggleSpicy={handleToggleSpicy} />
+      <OneColumn>
         <Input
           value={form.weight}
           onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
@@ -142,7 +144,7 @@ export function LogForm() {
           step="0.1"
           min="0"
         />
-      </TwoColumns>
+      </OneColumn>
       <OneColumn>
         <TextArea
           name="Notes"
@@ -167,15 +169,16 @@ const Form = styled.div`
   flex-direction: column;
   gap: 2rem;
   width: 100dvw;
-  padding: 3rem 0;
+  padding: 0 0 3rem 0;
 `
 
-const TwoColumns = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  gap: 3rem;
+const Controls = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   padding: 0 3rem;
+  margin-top: 1rem;
 `
 
 const OneColumn = styled.div`

@@ -72,7 +72,7 @@ function getPoopColors(color: string) {
 const Slide = styled.div`
   flex: 0 0 80%;
   min-width: 0;
-  height: 40rem;
+  height: 32rem;
   display: flex;
   position: relative;
   padding: 1rem;
