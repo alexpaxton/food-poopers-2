@@ -127,7 +127,7 @@ const Card = styled.div<{ $type: ToastType; $fullScreen: boolean }>`
   height: auto;
   background: ${({ $type }) => CARD_THEME[$type]};
   padding: 3rem;
-  border-radius: 1rem;
+  border-radius: 4rem;
   z-index: 9999;
 
   &.toast-enter {
