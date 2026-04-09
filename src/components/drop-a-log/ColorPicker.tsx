@@ -1,5 +1,6 @@
 'use client'
 
+import { MouseEvent, useState } from 'react'
 import styled from 'styled-components'
 
 import { COLORS, POOP_COLORS } from '@/constants'
@@ -10,30 +11,90 @@ type Props = {
 }
 
 export function ColorPicker({ onSelect, selectedColor }: Props) {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  function handleSelect(e: MouseEvent, color: string) {
+    e.stopPropagation()
+    if (isExpanded) {
+      setIsExpanded(false)
+      onSelect(color)
+    } else {
+      setIsExpanded(true)
+    }
+  }
+
   return (
-    <ColorGrid>
-      {POOP_COLORS.map(({ color, hex }) => (
-        <ColorButton key={color} onClick={() => onSelect(color)} title={color}>
+    <Container>
+      {POOP_COLORS.map(({ color, hex }, index) => (
+        <ColorButton
+          key={color}
+          onClick={(e) => handleSelect(e, color)}
+          title={color}
+          $pos={index}
+          $isExpanded={isExpanded}
+          $selected={selectedColor === color}
+        >
           <Circle $hex={hex} $selected={selectedColor === color} />
-          <Glow $selected={selectedColor === color} />
+          <Glow $isVisible={selectedColor === color && isExpanded} />
         </ColorButton>
       ))}
-    </ColorGrid>
+    </Container>
   )
 }
 
-const ColorGrid = styled.div`
-  display: flex;
-  padding: 0 3rem;
-  gap: 0.25rem;
-  justify-content: space-between;
+const COORDS = [
+  {
+    x: 0,
+    y: 0,
+  },
+  {
+    x: 0,
+    y: 1,
+  },
+  {
+    x: 1,
+    y: 0,
+  },
+  {
+    x: 1,
+    y: 1,
+  },
+  {
+    x: 0,
+    y: 2,
+  },
+  {
+    x: 2,
+    y: 0,
+  },
+]
+
+function getTransform(i: number) {}
+
+const Container = styled.div`
+  position: relative;
+  height: 5rem;
+  width: 5rem;
+  z-index: 50;
 `
 
-const ColorButton = styled.div`
-  position: relative;
+const ColorButton = styled.div<{
+  $pos: number
+  $isExpanded: boolean
+  $selected: boolean
+}>`
+  position: absolute;
+  top: 0;
+  left: 0;
   cursor: pointer;
   height: 5rem;
   width: 5rem;
+  z-index: ${({ $pos, $selected }) => ($selected ? '10' : `${$pos + 1}`)};
+  transition: transform 0.35s cubic-bezier(0.87, 0, 0.13, 1);
+  transform: ${({ $pos, $isExpanded }) =>
+    $isExpanded
+      ? `translate3d(${COORDS[$pos].x * -6}rem, ${COORDS[$pos].y * 6}rem, 0)`
+      : 'translate3d(0,0,0)'};
 `
 
 const Circle = styled.div<{ $hex: string; $selected: boolean }>`
@@ -55,7 +116,7 @@ const Circle = styled.div<{ $hex: string; $selected: boolean }>`
       $selected ? COLORS.border.selected : COLORS.border.primary};
 `
 
-const Glow = styled.div<{ $selected: boolean }>`
+const Glow = styled.div<{ $isVisible: boolean }>`
   z-index: 2;
   position: absolute;
   top: 50%;
@@ -70,5 +131,5 @@ const Glow = styled.div<{ $selected: boolean }>`
   );
   border-radius: 50%;
   transition: opacity 0.25s ease;
-  opacity: ${({ $selected }) => ($selected ? 0.5 : 0)};
+  opacity: ${({ $isVisible }) => ($isVisible ? 0.5 : 0)};
 `
