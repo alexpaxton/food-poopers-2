@@ -25,7 +25,7 @@ export function StatCard({ label, stat, slot, loading }: Props) {
 const Card = styled.dl<{ $slot: string }>`
   position: relative;
   background-color: ${COLORS.bg.primary};
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   padding: 2rem;
   gap: 1rem;
   display: flex;

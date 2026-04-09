@@ -34,7 +34,7 @@ export const COLORS = {
     secondary: '#f0f0f0',
   },
   border: {
-    primary: '#e0e0e0',
+    primary: '#e9e9e9',
     selected: '#000',
     width: '2px',
   },

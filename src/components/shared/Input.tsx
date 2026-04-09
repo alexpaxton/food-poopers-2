@@ -50,9 +50,10 @@ export function Input({
 }
 
 const InputElement = styled.input`
+  font-size: 2rem;
   width: 100%;
   height: 5rem;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   background-color: ${COLORS.bg.primary};
   padding: 0 1.5rem;
   color: ${COLORS.text.primary};
@@ -89,7 +90,7 @@ const InputGlow = styled.div`
     ${COLORS.glow.start} 0%,
     ${COLORS.glow.stop} 100%
   );
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   opacity: 0;
   transition: opacity 0.25s ease;
 `

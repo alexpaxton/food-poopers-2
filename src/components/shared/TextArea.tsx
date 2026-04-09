@@ -33,6 +33,7 @@ export function TextArea({
 }
 
 const TextAreaElement = styled.textarea`
+  font-size: 2rem;
   font-family:
     Nunito,
     Nunito Fallback;
@@ -42,7 +43,7 @@ const TextAreaElement = styled.textarea`
   height: 11rem;
   min-height: 11rem;
   max-height: 11rem;
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   background-color: ${COLORS.bg.primary};
   padding: 1.5rem;
   color: ${COLORS.text.primary};
@@ -73,7 +74,7 @@ const TextAreaGlow = styled.div`
     ${COLORS.glow.start} 0%,
     ${COLORS.glow.stop} 100%
   );
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   opacity: 0;
   transition: opacity 0.25s ease;
 `

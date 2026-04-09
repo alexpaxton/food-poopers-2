@@ -154,7 +154,7 @@ const Card = styled.div`
   width: 100%;
   padding: 3rem;
   background-color: ${COLORS.bg.primary};
-  border-radius: 0.75rem;
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
   height: 100%;
