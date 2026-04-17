@@ -11,6 +11,7 @@ type Props = {
   onClick: () => void
   type?: 'button' | 'submit'
   loading?: boolean
+  loadingText?: string
   variant: ButtonVariant
   disabled?: boolean
   icon?: React.ReactElement
@@ -24,15 +25,16 @@ export function Button({
   disabled = false,
   icon,
   loading = false,
+  loadingText = 'Loading...',
 }: Props) {
   return (
     <Element
       onClick={onClick}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
       $variant={variant}
     >
-      {text}
+      {loading ? loadingText : text}
       {icon}
     </Element>
   )

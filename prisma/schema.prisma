@@ -29,9 +29,10 @@ model Poop {
   type      Int
   latitude  Float
   longitude Float
-  weight    Float?
-  notes     String?
-  userId    String
+  weight          Float?
+  notes           String?
+  idempotencyKey  String   @unique
+  userId          String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
