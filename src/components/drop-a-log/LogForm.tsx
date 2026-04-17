@@ -131,6 +131,7 @@ export function LogForm() {
       <TypePicker onSelect={handleSelectType} selectedType={form.type} />
       <OneColumn>
         <Input
+          disabled={poopPending}
           value={form.weight}
           onChange={(e) => setForm((f) => ({ ...f, weight: e.target.value }))}
           name="Weight"
@@ -142,6 +143,7 @@ export function LogForm() {
       </OneColumn>
       <OneColumn>
         <TextArea
+          disabled={poopPending}
           name="Notes"
           value={form.notes}
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
@@ -149,9 +151,10 @@ export function LogForm() {
         />
         <Button
           variant="secondary"
-          loading={mutation.isPending}
+          loading={mutation.isPending || poopPending}
+          loadingText="Dropping log..."
           text="Drop a log"
-          disabled={!form.color || !form.type || mutation.isPending}
+          disabled={!form.color || !form.type}
           onClick={handleSubmit}
         />
       </OneColumn>
