@@ -1,6 +1,7 @@
 'use client'
 
 import { useMutation } from '@tanstack/react-query'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Button } from '@/components/shared/Button'
@@ -13,6 +14,7 @@ import { ColorPicker } from '@/components/drop-a-log/ColorPicker'
 import { SpicyToggle } from '@/components/drop-a-log/SpicyToggle'
 import { TypePicker } from '@/components/drop-a-log/TypePicker'
 
+import { createPoop } from '@/actions/poops'
 import { useLocalStorage } from '@/hooks'
 
 type FormState = {
@@ -31,25 +33,9 @@ const INITIAL_FORM_STATE: FormState = {
   notes: '',
 }
 
-async function postPoop(data: {
-  color: string
-  spicy: boolean
-  type: number
-  latitude: number
-  longitude: number
-  weight: number | null
-  notes: string | null
-}) {
-  const res = await fetch('/api/poops', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-  if (!res.ok) throw new Error('Failed to submit')
-  return res.json()
-}
-
 export function LogForm() {
+  const [poopPending, setPoopPending] = useState(false)
+  const idempotencyKey = useRef<string | null>(null)
   const { value: form, setValue: setForm } = useLocalStorage<FormState>({
     initialValue: INITIAL_FORM_STATE,
     key: 'log-form',
@@ -57,7 +43,7 @@ export function LogForm() {
   const { notify } = useToasts()
 
   const mutation = useMutation({
-    mutationFn: postPoop,
+    mutationFn: createPoop,
     onSuccess: () => {
       notify({
         type: 'success',
@@ -67,6 +53,8 @@ export function LogForm() {
         fullScreen: true,
         emoji: '💩',
       })
+      idempotencyKey.current = null
+      setPoopPending(false)
       setForm(INITIAL_FORM_STATE)
     },
     onError: () => {
@@ -78,6 +66,7 @@ export function LogForm() {
         fullScreen: false,
         emoji: '🫠',
       })
+      setPoopPending(false)
     },
   })
 
@@ -97,6 +86,9 @@ export function LogForm() {
   function handleSubmit() {
     if (!form.type) return
 
+    idempotencyKey.current = crypto.randomUUID()
+    setPoopPending(true)
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         mutation.mutate({
@@ -107,9 +99,11 @@ export function LogForm() {
           longitude: pos.coords.longitude,
           weight: form.weight !== '' ? parseFloat(form.weight) : null,
           notes: form.notes !== '' ? form.notes : null,
+          idempotencyKey: idempotencyKey.current!,
         })
       },
-      () =>
+      () => {
+        setPoopPending(false)
         notify({
           type: 'error',
           heading: 'Unable to get location',
@@ -118,6 +112,7 @@ export function LogForm() {
           fullScreen: false,
           emoji: '🌎',
         })
+      }
     )
   }
 
