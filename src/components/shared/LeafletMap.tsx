@@ -53,6 +53,8 @@ function createClusterIcon(cluster: { getChildCount: () => number }) {
 
 const SINGLE_MARKER_ICON = createCountIcon(1)
 
+const TILE_URL = `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`
+
 function LocateButton() {
   const map = useMap()
 
@@ -85,7 +87,7 @@ export function LeafletMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          url={TILE_URL}
         />
         <LocateButton />
         <MarkerClusterGroup
