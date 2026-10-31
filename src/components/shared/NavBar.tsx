@@ -2,6 +2,7 @@
 
 import {
   ArrowFatLineDownIcon,
+  GlobeHemisphereWestIcon,
   HouseIcon,
   TrophyIcon,
 } from '@phosphor-icons/react'
@@ -15,6 +16,7 @@ const TABS = [
   { label: 'Me', href: '/me', Icon: HouseIcon },
   { label: 'Log', href: '/drop-a-log', Icon: ArrowFatLineDownIcon },
   { label: 'Leaderboard', href: '/leaderboard', Icon: TrophyIcon },
+  { label: 'Map', href: '/map', Icon: GlobeHemisphereWestIcon },
 ]
 
 export function NavBar() {
@@ -35,7 +37,7 @@ const Nav = styled.nav`
   grid-area: NavBar;
   display: grid;
   border-top: ${COLORS.border.width} solid ${COLORS.border.primary};
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 `
 
 const Tab = styled(Link)<{ $active: boolean }>`
